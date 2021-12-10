@@ -5,7 +5,9 @@
 	using System.Linq;
 	using System.Reflection;
 	using Guards;
+	using JetBrains.Annotations;
 
+	[PublicAPI]
 	internal sealed class PropertyAccessor
 	{
 		private static readonly ConcurrentDictionary<Type, PropertyAccessor[]> propertyAccessorsMap = new ConcurrentDictionary<Type, PropertyAccessor[]>();

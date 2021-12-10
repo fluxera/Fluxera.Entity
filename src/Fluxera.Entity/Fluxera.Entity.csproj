@@ -26,7 +26,10 @@
 
 	<ItemGroup>
 		<PackageReference Include="Fluxera.ComponentModel.Annotations" Version="6.0.2" />
+		<PackageReference Include="Fluxera.Guards" Version="6.0.5" />
 		<PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
+		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
 	</ItemGroup>
 
 </Project>
