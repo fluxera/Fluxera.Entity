@@ -65,7 +65,7 @@ public class SalaryRaisedEventHandler : ICommittedDomainEventHandler<SalaryRaise
 ```
 
 ```C#
-IDomainEventDispatcher dispatcher = /* Get the dispatcher from container. *;
+IDomainEventDispatcher dispatcher = /* Get the dispatcher from container... */;
 
 SalaryRaisedEvent salaryRaisedEvent = new SalaryRaisedEvent(100_000);
 
