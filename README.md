@@ -65,11 +65,16 @@ public class SalaryRaisedEventHandler : ICommittedDomainEventHandler<SalaryRaise
 ```
 
 ```C#
-// Register the dispatcher and the domain event handlers.
-services.AddDomainEventHandlers<SalaryRaisedEventHandler>();
-services.AddDomainEventHandlers<SalaryRaisedCommittedEventHandler>();
+// A domain event support.
+services.AddDomainEvents(builder =>
+{
+	builder
+		.AddDomainEventHandlers<SalaryRaisedEventHandler>()
+		.AddDomainEventHandlers<AdditionalSalaryRaisedEventHandler>()
+		.AddDomainEventHandlers<SalaryRaisedCommittedEventHandler>();
+});
 
-IDomainEventDispatcher dispatcher = /* Get the dispatcher from container... */;
+IDomainEventDispatcher dispatcher = /* Get the dispatcher ... */;
 
 SalaryRaisedEvent salaryRaisedEvent = new SalaryRaisedEvent(100_000);
 

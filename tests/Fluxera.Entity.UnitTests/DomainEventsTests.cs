@@ -17,10 +17,14 @@
 		{
 			IServiceCollection services = new ServiceCollection();
 
-			// Register the dispatcher and the domain event handlers.
-			services.AddDomainEventHandlers<SalaryRaisedEventHandler>();
-			services.AddDomainEventHandlers<AdditionalSalaryRaisedEventHandler>();
-			services.AddDomainEventHandlers<SalaryRaisedCommittedEventHandler>();
+			// A domain event support.
+			services.AddDomainEvents(builder =>
+			{
+				builder
+					.AddDomainEventHandlers<SalaryRaisedEventHandler>()
+					.AddDomainEventHandlers<AdditionalSalaryRaisedEventHandler>()
+					.AddDomainEventHandlers<SalaryRaisedCommittedEventHandler>();
+			});
 
 			this.serviceProvider = services.BuildServiceProvider();
 		}
