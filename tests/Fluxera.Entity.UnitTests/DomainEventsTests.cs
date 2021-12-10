@@ -48,5 +48,31 @@
 			salaryRaisedEvent.HandlerNames.Count.Should().Be(1);
 			salaryRaisedEvent.HandlerNames.Should().Contain(nameof(SalaryRaisedCommittedEventHandler));
 		}
+
+		[Test]
+		public async Task ShouldExecuteDomainHandlersFromEntity()
+		{
+			IDomainEventDispatcher dispatcher = this.serviceProvider.GetRequiredService<IDomainEventDispatcher>();
+
+			Employee employee = new Employee
+			{
+				Name = "James Bond",
+				EmployeeNumber = 8051007,
+				Salary = 1_000_000,
+			};
+			employee.GiveRaise(25_000);
+
+			foreach(IDomainEvent domainEvent in employee.DomainEvents)
+			{
+				await dispatcher.DispatchAsync(domainEvent, false);
+			}
+
+			foreach(IDomainEvent domainEvent in employee.DomainEvents)
+			{
+				((SalaryRaisedEvent)domainEvent).HandlerNames.Count.Should().Be(2);
+				((SalaryRaisedEvent)domainEvent).HandlerNames.Should().Contain(nameof(SalaryRaisedEventHandler), nameof(AdditionalSalaryRaisedEventHandler));
+			}
+
+		}
 	}
 }
