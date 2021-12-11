@@ -14,13 +14,17 @@ namespace Fluxera.Entity.DomainEvents
 	public interface IDomainEventDispatcher
 	{
 		/// <summary>
-		///		Dispatches the given domain event to it's corresponding handlers.
+		///		Dispatches the given domain event to it's corresponding handlers. <br/>
+		///		Dispatches to event handlers that that run before the entity was stored.
 		/// </summary>
 		/// <param name="domainEvent">The domain event to handle.</param>
-		/// <param name="dispatchCommitted">
-		///		If <c>true</c>, dispatches to committed event handlers that run after the entity was stored. <br/>
-		///		If <c>false</c>, dispatches to event handlers that that run before the entity was stored.
-		/// </param>
-		Task DispatchAsync(dynamic domainEvent, bool dispatchCommitted);
+		Task DispatchAsync(dynamic domainEvent);
+
+		/// <summary>
+		///		Dispatches the given domain event to it's corresponding handlers. <br/>
+		///		Dispatches to committed event handlers that run after the entity was stored.
+		/// </summary>
+		/// <param name="domainEvent">The domain event to handle.</param>
+		Task DispatchCommittedAsync(dynamic domainEvent);
 	}
 }

@@ -1,7 +1,6 @@
 ﻿namespace Fluxera.Entity.UnitTests
 {
 	using System;
-	using System.Data.SqlTypes;
 	using EmployeeAggregate;
 	using FluentAssertions;
 	using NUnit.Framework;
@@ -19,7 +18,7 @@
 				Salary = 1_000_000,
 			};
 
-			employee.IsTransient().Should().BeTrue();
+			employee.IsTransient.Should().BeTrue();
 		}
 
 		[Test]
@@ -33,7 +32,7 @@
 				Salary = 1_000_000,
 			};
 
-			employee.IsTransient().Should().BeTrue();
+			employee.IsTransient.Should().BeTrue();
 		}
 
 		[Test]
@@ -47,7 +46,7 @@
 				Salary = 1_000_000,
 			};
 
-			employee.IsTransient().Should().BeTrue();
+			employee.IsTransient.Should().BeTrue();
 		}
 
 		[Test]
@@ -61,7 +60,7 @@
 				Salary = 1_000_000,
 			};
 
-			employee.IsTransient().Should().BeTrue();
+			employee.IsTransient.Should().BeTrue();
 		}
 
 		[Test]

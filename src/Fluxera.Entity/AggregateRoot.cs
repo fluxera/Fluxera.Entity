@@ -7,36 +7,19 @@
 	/// </summary>
 	/// <typeparam name="TAggregateRoot">The aggregate root type.</typeparam>
 	[PublicAPI]
-	public class AggregateRoot<TAggregateRoot> : Entity<TAggregateRoot>
+	public abstract class AggregateRoot<TAggregateRoot> : Entity<TAggregateRoot>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot>
 	{
-		public static bool operator ==(AggregateRoot<TAggregateRoot>? left, AggregateRoot<TAggregateRoot>? right)
-		{
-			if (left is null)
-			{
-				return right is null;
-			}
+	}
 
-			return left.Equals(right);
-		}
-
-		public static bool operator !=(AggregateRoot<TAggregateRoot>? left, AggregateRoot<TAggregateRoot>? right)
-		{
-			return !(left == right);
-		}
-
-		// ReSharper disable once RedundantOverriddenMember
-		/// <inheritdoc />
-		public override bool Equals(object? obj)
-		{
-			return base.Equals(obj);
-		}
-
-		// ReSharper disable once RedundantOverriddenMember
-		/// <inheritdoc />
-		public override int GetHashCode()
-		{
-			return base.GetHashCode();
-		}
+	/// <summary>
+	///     A base class for all aggregate root entities.
+	/// </summary>
+	/// <typeparam name="TAggregateRoot">The aggregate root type.</typeparam>
+	/// <typeparam name="TKey">The ID type.</typeparam>
+	[PublicAPI]
+	public abstract class AggregateRoot<TAggregateRoot, TKey> : Entity<TAggregateRoot, TKey>
+		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+	{
 	}
 }
