@@ -69,9 +69,8 @@
 			employeeOne.Equals(employeeTwo).Should().BeFalse();
 		}
 
-		
 		[Test]
-		public void EqualsShouldReturnTrueForNotEqualNonTransientEntitiesWithSameIdentifiers()
+		public void EqualsShouldReturnTrueForEqualNonTransientEntitiesWithSameIdentifiers()
 		{
 			Employee employeeOne = new Employee
 			{

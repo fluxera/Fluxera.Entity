@@ -3,6 +3,7 @@
 	using System;
 	using System.Collections.Generic;
 	using System.ComponentModel;
+	using System.Data;
 	using System.Linq;
 	using System.Runtime.CompilerServices;
 	using ComponentModel.Annotations;
@@ -14,8 +15,21 @@
 	/// </summary>
 	/// <typeparam name="TEntity">The entity type.</typeparam>
 	[PublicAPI]
-	public abstract class Entity<TEntity> : INotifyPropertyChanging, INotifyPropertyChanged
-		where TEntity : Entity<TEntity>
+	public abstract class Entity<TEntity> : Entity<TEntity, string>
+		where TEntity : Entity<TEntity, string>
+	{
+		[Ignore]
+		public override bool IsTransient => string.IsNullOrWhiteSpace(this.ID);
+	}
+
+	/// <summary>
+	///     A base class for all entities.
+	/// </summary>
+	/// <typeparam name="TEntity">The entity type.</typeparam>
+	/// <typeparam name="TKey">The ID type.</typeparam>
+	[PublicAPI]
+	public abstract class Entity<TEntity, TKey> : INotifyPropertyChanging, INotifyPropertyChanged
+		where TEntity : Entity<TEntity, TKey>
 	{
 		/// <summary>
 		///     To ensure hashcode uniqueness, a carefully selected random number multiplier
@@ -40,7 +54,7 @@
 		/// <summary>
 		///     The unique ID of the entity.
 		/// </summary>
-		public virtual string? ID { get; set; }
+		public virtual TKey? ID { get; set; }
 
 		/// <summary>
 		///     The domain events of this entity.
@@ -48,7 +62,13 @@
 		[Ignore]
 		public ICollection<IDomainEvent> DomainEvents { get; } = new List<IDomainEvent>();
 
-		public static bool operator ==(Entity<TEntity>? left, Entity<TEntity>? right)
+		/// <summary>
+		///		Gets a flag, if the entity instance is transient (not stored to the storage).
+		/// </summary>
+		[Ignore] 
+		public virtual bool IsTransient => Equals(this.ID, default);
+
+		public static bool operator ==(Entity<TEntity, TKey>? left, Entity<TEntity, TKey>? right)
 		{
 			if (left is null)
 			{
@@ -58,7 +78,7 @@
 			return left.Equals(right);
 		}
 
-		public static bool operator !=(Entity<TEntity>? left, Entity<TEntity>? right)
+		public static bool operator !=(Entity<TEntity, TKey>? left, Entity<TEntity, TKey>? right)
 		{
 			return !(left == right);
 		}
@@ -76,7 +96,7 @@
 				return true;
 			}
 
-			if(obj is not Entity<TEntity> other)
+			if(obj is not Entity<TEntity, TKey> other)
 			{
 				return false;
 			}
@@ -90,8 +110,8 @@
 			// compare domain signatures; because if one is transient and the
 			// other is a persisted entity, then they cannot be the same object.
 			return this.GetType() == other.GetUnProxiedType()
-				&& this.IsTransient() 
-				&& other.IsTransient()
+				&& this.IsTransient
+				&& other.IsTransient
 				&& this.GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
 		}
 
@@ -172,14 +192,14 @@
 		///     Returns true if self and the provided entity have the same ID values
 		///     and the IDs are not of the default ID value.
 		/// </summary>
-		private bool HasSameNonDefaultIdentifierAs(Entity<TEntity> compareTo)
+		private bool HasSameNonDefaultIdentifierAs(Entity<TEntity, TKey> compareTo)
 		{
-			return !this.IsTransient() && !compareTo.IsTransient() && Equals(this.ID, compareTo.ID);
+			return !this.IsTransient && !compareTo.IsTransient && Equals(this.ID, compareTo.ID);
 		}
 
 		private void Init()
 		{
-			this.ID = null;
+			this.ID = default;
 		}
 	}
 }
