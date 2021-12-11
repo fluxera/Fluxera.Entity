@@ -1,5 +1,6 @@
 ﻿namespace Fluxera.Entity.DomainEvents
 {
+	using System;
 	using System.Threading.Tasks;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +11,7 @@
 	///		storing the entity to a storage.
 	/// </summary>
 	/// <remarks>
-	///		See: <see cref="ServiceCollectionExtensions.AddDomainEventHandlers(IServiceCollection)"/>.
+	///		See: <see cref="ServiceCollectionExtensions.AddDomainEvents(IServiceCollection,Action{DomainEventHandlerBuilder})"/>.
 	/// </remarks>
 	/// <typeparam name="TDomainEvent">The type of the domain event to handle.</typeparam>
 	[PublicAPI]

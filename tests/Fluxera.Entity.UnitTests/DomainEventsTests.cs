@@ -35,7 +35,7 @@
 			IDomainEventDispatcher dispatcher = this.serviceProvider.GetRequiredService<IDomainEventDispatcher>();
 
 			SalaryRaisedEvent salaryRaisedEvent = new SalaryRaisedEvent(100_000);
-			await dispatcher.DispatchAsync(salaryRaisedEvent, false);
+			await dispatcher.DispatchAsync(salaryRaisedEvent);
 
 			salaryRaisedEvent.HandlerNames.Count.Should().Be(2);
 			salaryRaisedEvent.HandlerNames.Should().Contain(nameof(SalaryRaisedEventHandler), nameof(AdditionalSalaryRaisedEventHandler));
@@ -47,7 +47,7 @@
 			IDomainEventDispatcher dispatcher = this.serviceProvider.GetRequiredService<IDomainEventDispatcher>();
 
 			SalaryRaisedEvent salaryRaisedEvent = new SalaryRaisedEvent(100_000);
-			await dispatcher.DispatchAsync(salaryRaisedEvent, true);
+			await dispatcher.DispatchCommittedAsync(salaryRaisedEvent);
 
 			salaryRaisedEvent.HandlerNames.Count.Should().Be(1);
 			salaryRaisedEvent.HandlerNames.Should().Contain(nameof(SalaryRaisedCommittedEventHandler));
@@ -68,7 +68,7 @@
 
 			foreach(IDomainEvent domainEvent in employee.DomainEvents)
 			{
-				await dispatcher.DispatchAsync(domainEvent, false);
+				await dispatcher.DispatchAsync(domainEvent);
 			}
 
 			foreach(IDomainEvent domainEvent in employee.DomainEvents)

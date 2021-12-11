@@ -20,7 +20,19 @@ namespace Fluxera.Entity.DomainEvents
 			this.serviceProvider = serviceProvider;
 		}
 
-		public async Task DispatchAsync(dynamic domainEvent, bool dispatchCommitted)
+		/// <inheritdoc />
+		public async Task DispatchAsync(dynamic domainEvent)
+		{
+			await this.DispatchAsync(domainEvent, false);
+		}
+
+		/// <inheritdoc />
+		public async Task DispatchCommittedAsync(dynamic domainEvent)
+		{
+			await this.DispatchAsync(domainEvent, true);
+		}
+
+		private async Task DispatchAsync(dynamic domainEvent, bool dispatchCommitted)
 		{
 			Type eventType = domainEvent.GetType();
 

@@ -3,7 +3,6 @@
 	using System;
 	using System.Collections.Generic;
 	using System.ComponentModel;
-	using System.Data;
 	using System.Linq;
 	using System.Runtime.CompilerServices;
 	using ComponentModel.Annotations;
@@ -91,7 +90,7 @@
 				return false;
 			}
 
-			if (object.ReferenceEquals(this, obj))
+			if (ReferenceEquals(this, obj))
 			{
 				return true;
 			}
@@ -110,7 +109,7 @@
 			// compare domain signatures; because if one is transient and the
 			// other is a persisted entity, then they cannot be the same object.
 			return this.GetType() == other.GetUnProxiedType()
-				&& this.IsTransient
+				&& this.IsTransient 
 				&& other.IsTransient
 				&& this.GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
 		}
@@ -159,7 +158,18 @@
 		protected virtual IEnumerable<object?> GetEqualityComponents()
 		{
 			PropertyAccessor[] propertyAccessors = PropertyAccessor.GetPropertyAccessors(this.GetType(), 
-				property => property.IsDefined(typeof(DomainSignatureAttribute), true));
+				property =>
+				{
+					bool isDomainSignatureAttribute = property.IsDefined(typeof(DomainSignatureAttribute), true);
+					if(isDomainSignatureAttribute)
+					{
+						if(property.Name is nameof(this.ID) or nameof(this.DomainEvents) or nameof(this.IsTransient))
+						{
+							throw new InvalidOperationException($"The property {property.Name} cannot belong to the domain signature.");
+						}
+					}
+					return isDomainSignatureAttribute;
+				});
 
 			foreach(PropertyAccessor accessor in propertyAccessors)
 			{
