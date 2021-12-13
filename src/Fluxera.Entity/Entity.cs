@@ -15,7 +15,7 @@
 	/// <typeparam name="TEntity">The entity type.</typeparam>
 	[PublicAPI]
 	public abstract class Entity<TEntity> : Entity<TEntity, string>
-		where TEntity : Entity<TEntity, string>
+		where TEntity : Entity<TEntity>
 	{
 		[Ignore]
 		public override bool IsTransient => string.IsNullOrWhiteSpace(this.ID);
