@@ -3,10 +3,11 @@
 	using System;
 	using System.Collections.Generic;
 	using System.ComponentModel;
+	using System.ComponentModel.DataAnnotations;
 	using System.Linq;
 	using System.Runtime.CompilerServices;
-	using ComponentModel.Annotations;
-	using DomainEvents;
+	using Fluxera.ComponentModel.Annotations;
+	using Fluxera.Entity.DomainEvents;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -39,12 +40,6 @@
 		/// </remarks>
 		private const int HashMultiplier = 37;
 
-		/// <inheritdoc />
-		public event PropertyChangingEventHandler? PropertyChanging;
-
-		/// <inheritdoc />
-		public event PropertyChangedEventHandler? PropertyChanged;
-
 		protected Entity()
 		{
 			this.Init();
@@ -53,6 +48,7 @@
 		/// <summary>
 		///     The unique ID of the entity.
 		/// </summary>
+		[Key]
 		public virtual TKey? ID { get; set; }
 
 		/// <summary>
@@ -62,14 +58,20 @@
 		public ICollection<IDomainEvent> DomainEvents { get; } = new List<IDomainEvent>();
 
 		/// <summary>
-		///		Gets a flag, if the entity instance is transient (not stored to the storage).
+		///     Gets a flag, if the entity instance is transient (not stored to the storage).
 		/// </summary>
-		[Ignore] 
+		[Ignore]
 		public virtual bool IsTransient => Equals(this.ID, default);
+
+		/// <inheritdoc />
+		public event PropertyChangedEventHandler? PropertyChanged;
+
+		/// <inheritdoc />
+		public event PropertyChangingEventHandler? PropertyChanging;
 
 		public static bool operator ==(Entity<TEntity, TKey>? left, Entity<TEntity, TKey>? right)
 		{
-			if (left is null)
+			if(left is null)
 			{
 				return right is null;
 			}
@@ -90,7 +92,7 @@
 				return false;
 			}
 
-			if (ReferenceEquals(this, obj))
+			if(ReferenceEquals(this, obj))
 			{
 				return true;
 			}
@@ -100,7 +102,7 @@
 				return false;
 			}
 
-			if (this.HasSameNonDefaultIdentifierAs(other))
+			if(this.HasSameNonDefaultIdentifierAs(other))
 			{
 				return true;
 			}
@@ -108,8 +110,8 @@
 			// Since the IDs aren't the same, both of them must be transient to
 			// compare domain signatures; because if one is transient and the
 			// other is a persisted entity, then they cannot be the same object.
-			return this.GetType() == other.GetUnProxiedType()
-				&& this.IsTransient 
+			return (this.GetType() == other.GetUnProxiedType())
+				&& this.IsTransient
 				&& other.IsTransient
 				&& this.GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
 		}
@@ -137,8 +139,8 @@
 		}
 
 		/// <summary>
-		///		Some OR mappers may create dynamic proxies , so this method
-		///		gets into the proxied object to get its actual type.
+		///     Some OR mappers may create dynamic proxies , so this method
+		///     gets into the proxied object to get its actual type.
 		/// </summary>
 		/// <returns></returns>
 		public virtual Type GetUnProxiedType()
@@ -147,17 +149,17 @@
 		}
 
 		/// <summary>
-		///		Gets all components of the entity that are used for equality (domain signature). <br/>
-		///		The default implementation get all properties via reflection. One
-		///		can at any time override this behavior with a manual or custom implementation.
-		///		<br/><br/>
-		///		To add properties to the domain signature you should decorate the appropriate property(s)
-		///		with [DomainSignature] and they will be compared automatically.
+		///     Gets all components of the entity that are used for equality (domain signature). <br />
+		///     The default implementation get all properties via reflection. One
+		///     can at any time override this behavior with a manual or custom implementation.
+		///     <br /><br />
+		///     To add properties to the domain signature you should decorate the appropriate property(s)
+		///     with [DomainSignature] and they will be compared automatically.
 		/// </summary>
 		/// <returns>The components to use for equality.</returns>
 		protected virtual IEnumerable<object?> GetEqualityComponents()
 		{
-			PropertyAccessor[] propertyAccessors = PropertyAccessor.GetPropertyAccessors(this.GetType(), 
+			PropertyAccessor[] propertyAccessors = PropertyAccessor.GetPropertyAccessors(this.GetType(),
 				property =>
 				{
 					bool isDomainSignatureAttribute = property.IsDefined(typeof(DomainSignatureAttribute), true);
@@ -168,6 +170,7 @@
 							throw new InvalidOperationException($"The property {property.Name} cannot belong to the domain signature.");
 						}
 					}
+
 					return isDomainSignatureAttribute;
 				});
 
@@ -182,9 +185,9 @@
 		{
 			if(!Equals(field, value))
 			{
-				OnPropertyChanging(propertyName);
+				this.OnPropertyChanging(propertyName);
 				field = value;
-				OnPropertyChanged(propertyName);
+				this.OnPropertyChanged(propertyName);
 			}
 		}
 
