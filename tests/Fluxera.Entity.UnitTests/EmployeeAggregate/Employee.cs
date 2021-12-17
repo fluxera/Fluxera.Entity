@@ -1,11 +1,11 @@
 ﻿namespace Fluxera.Entity.UnitTests.EmployeeAggregate
 {
 	using System.Collections.Generic;
-	using Guards;
+	using Fluxera.Guards;
 	using JetBrains.Annotations;
 
 	[PublicAPI]
-	public class Employee : AggregateRoot<Employee>
+	public class Employee : AggregateRoot<Employee, string>
 	{
 		[DomainSignature]
 		public string Name { get; set; }

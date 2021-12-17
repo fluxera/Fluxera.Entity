@@ -11,18 +11,6 @@
 	using JetBrains.Annotations;
 
 	/// <summary>
-	///     A base class for all entities. Uses <see cref="string" /> as type for the ID.
-	/// </summary>
-	/// <typeparam name="TEntity">The entity type.</typeparam>
-	[PublicAPI]
-	public abstract class Entity<TEntity> : Entity<TEntity, string>
-		where TEntity : Entity<TEntity>
-	{
-		[Ignore]
-		public override bool IsTransient => string.IsNullOrWhiteSpace(this.ID);
-	}
-
-	/// <summary>
 	///     A base class for all entities.
 	/// </summary>
 	/// <typeparam name="TEntity">The entity type.</typeparam>
@@ -40,6 +28,9 @@
 		/// </remarks>
 		private const int HashMultiplier = 37;
 
+		/// <summary>
+		///     Creates a new instance of the <see cref="Entity{TEntity,TKey}" /> type.
+		/// </summary>
 		protected Entity()
 		{
 			this.Init();
@@ -61,7 +52,23 @@
 		///     Gets a flag, if the entity instance is transient (not stored to the storage).
 		/// </summary>
 		[Ignore]
-		public virtual bool IsTransient => Equals(this.ID, default);
+		public virtual bool IsTransient
+		{
+			get
+			{
+				bool isTransient = Equals(this.ID, default);
+
+				if(typeof(TKey) == typeof(string))
+				{
+					if(!isTransient)
+					{
+						isTransient = string.IsNullOrWhiteSpace(this.ID as string);
+					}
+				}
+
+				return isTransient;
+			}
+		}
 
 		/// <inheritdoc />
 		public event PropertyChangedEventHandler? PropertyChanged;
@@ -69,6 +76,12 @@
 		/// <inheritdoc />
 		public event PropertyChangingEventHandler? PropertyChanging;
 
+		/// <summary>
+		///     Checks two instances of <see cref="Entity{TEntity,TKey}" /> are equal.
+		/// </summary>
+		/// <param name="left">The left item of the operator.</param>
+		/// <param name="right">The left item of the operator.</param>
+		/// <returns>True, if the instances are equal.</returns>
 		public static bool operator ==(Entity<TEntity, TKey>? left, Entity<TEntity, TKey>? right)
 		{
 			if(left is null)
@@ -79,6 +92,12 @@
 			return left.Equals(right);
 		}
 
+		/// <summary>
+		///     Checks two instances of <see cref="Entity{TEntity,TKey}" /> are not equal.
+		/// </summary>
+		/// <param name="left">The left item of the operator.</param>
+		/// <param name="right">The left item of the operator.</param>
+		/// <returns>True, if the instances are equal.</returns>
 		public static bool operator !=(Entity<TEntity, TKey>? left, Entity<TEntity, TKey>? right)
 		{
 			return !(left == right);
@@ -181,6 +200,13 @@
 			}
 		}
 
+		/// <summary>
+		///     Sets the references fields value to the given value and publishes notification events.
+		/// </summary>
+		/// <typeparam name="T">The type of the value.</typeparam>
+		/// <param name="field">The field reference to set.</param>
+		/// <param name="value">The value to set.</param>
+		/// <param name="propertyName">The name of the used property.</param>
 		protected void SetAndNotify<T>(ref T? field, T? value, [CallerMemberName] string propertyName = null!)
 		{
 			if(!Equals(field, value))
@@ -191,12 +217,12 @@
 			}
 		}
 
-		protected virtual void OnPropertyChanging(string propertyName)
+		private void OnPropertyChanging(string propertyName)
 		{
 			this.PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
 		}
 
-		protected virtual void OnPropertyChanged(string propertyName)
+		private void OnPropertyChanged(string propertyName)
 		{
 			this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
