@@ -56,7 +56,7 @@
 		{
 			get
 			{
-				bool isTransient = Equals(this.ID, default);
+				bool isTransient = Equals(this.ID, default(TKey));
 
 				if(typeof(TKey) == typeof(string))
 				{
