@@ -6,7 +6,6 @@
 	using System.ComponentModel.DataAnnotations;
 	using System.Linq;
 	using System.Runtime.CompilerServices;
-	using Fluxera.ComponentModel.Annotations;
 	using Fluxera.Entity.DomainEvents;
 	using JetBrains.Annotations;
 
@@ -45,13 +44,11 @@
 		/// <summary>
 		///     The domain events of this entity.
 		/// </summary>
-		[Ignore]
 		public ICollection<IDomainEvent> DomainEvents { get; } = new List<IDomainEvent>();
 
 		/// <summary>
 		///     Gets a flag, if the entity instance is transient (not stored to the storage).
 		/// </summary>
-		[Ignore]
 		public virtual bool IsTransient
 		{
 			get
