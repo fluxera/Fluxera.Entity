@@ -4,7 +4,7 @@
 	using System.Collections.Concurrent;
 	using System.Linq;
 	using System.Reflection;
-	using Guards;
+	using Fluxera.Guards;
 	using JetBrains.Annotations;
 
 	[PublicAPI]
@@ -27,7 +27,7 @@
 
 		private Func<object, object> GetterFunc { get; }
 
-		public object? Invoke(object target)
+		public object Invoke(object target)
 		{
 			return this.GetterFunc.Invoke(target);
 		}
@@ -40,12 +40,12 @@
 					.Where(predicate.Invoke)
 					.Select(property =>
 					{
-						MethodInfo? getMethod = property.GetMethod;
-						Type? declaringType = property.DeclaringType;
+						MethodInfo getMethod = property.GetMethod;
+						Type declaringType = property.DeclaringType;
 						Type propertyType = property.PropertyType;
 
 						Type getMethodDelegateType = typeof(Func<,>).MakeGenericType(declaringType, propertyType);
-						Delegate? getMethodDelegate = getMethod.CreateDelegate(getMethodDelegateType);
+						Delegate getMethodDelegate = getMethod.CreateDelegate(getMethodDelegateType);
 						MethodInfo callInnerGenericMethodWithTypes = callInnerDelegateMethod.MakeGenericMethod(declaringType, propertyType);
 						Func<object, object> getter = (Func<object, object>)callInnerGenericMethodWithTypes.Invoke(null, new object[] { getMethodDelegate });
 
