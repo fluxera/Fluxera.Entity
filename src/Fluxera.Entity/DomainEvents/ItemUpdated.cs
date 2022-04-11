@@ -15,15 +15,22 @@
 		/// <summary>
 		///     Creates a new instance of the <see cref="ItemUpdated{TAggregateRoot,TKey}" /> type.
 		/// </summary>
-		/// <param name="item">The underlying item of this event.</param>
-		public ItemUpdated(TAggregateRoot item)
+		/// <param name="beforeUpdateItem">The underlying item of this event.</param>
+		/// <param name="afterUpdateItem">The underlying item of this event.</param>
+		public ItemUpdated(TAggregateRoot beforeUpdateItem, TAggregateRoot afterUpdateItem)
 		{
-			this.Item = item;
+			this.BeforeUpdateItem = beforeUpdateItem;
+			this.AfterUpdateItem = afterUpdateItem;
 		}
 
 		/// <summary>
-		///     Gets the underlying item.
+		///     Gets the item before the update.
 		/// </summary>
-		public TAggregateRoot Item { get; }
+		public TAggregateRoot BeforeUpdateItem { get; }
+
+		/// <summary>
+		///     Gets the updated item.
+		/// </summary>
+		public TAggregateRoot AfterUpdateItem { get; }
 	}
 }

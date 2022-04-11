@@ -39,7 +39,7 @@
 		///     The unique ID of the entity.
 		/// </summary>
 		[Key]
-		public virtual TKey? ID { get; set; }
+		public virtual TKey ID { get; set; }
 
 		/// <summary>
 		///     The domain events of this entity.
@@ -68,10 +68,10 @@
 		}
 
 		/// <inheritdoc />
-		public event PropertyChangedEventHandler? PropertyChanged;
+		public event PropertyChangedEventHandler PropertyChanged;
 
 		/// <inheritdoc />
-		public event PropertyChangingEventHandler? PropertyChanging;
+		public event PropertyChangingEventHandler PropertyChanging;
 
 		/// <summary>
 		///     Checks two instances of <see cref="Entity{TEntity,TKey}" /> are equal.
@@ -79,7 +79,7 @@
 		/// <param name="left">The left item of the operator.</param>
 		/// <param name="right">The left item of the operator.</param>
 		/// <returns>True, if the instances are equal.</returns>
-		public static bool operator ==(Entity<TEntity, TKey>? left, Entity<TEntity, TKey>? right)
+		public static bool operator ==(Entity<TEntity, TKey> left, Entity<TEntity, TKey> right)
 		{
 			if(left is null)
 			{
@@ -95,13 +95,13 @@
 		/// <param name="left">The left item of the operator.</param>
 		/// <param name="right">The left item of the operator.</param>
 		/// <returns>True, if the instances are equal.</returns>
-		public static bool operator !=(Entity<TEntity, TKey>? left, Entity<TEntity, TKey>? right)
+		public static bool operator !=(Entity<TEntity, TKey> left, Entity<TEntity, TKey> right)
 		{
 			return !(left == right);
 		}
 
 		/// <inheritdoc />
-		public override bool Equals(object? obj)
+		public override bool Equals(object obj)
 		{
 			if(obj is null)
 			{
@@ -142,7 +142,7 @@
 				// so we include the value object type in the hash calculation
 				int hashCode = this.GetType().GetHashCode();
 
-				foreach(object? component in this.GetEqualityComponents())
+				foreach(object component in this.GetEqualityComponents())
 				{
 					if(component != null)
 					{
@@ -173,7 +173,7 @@
 		///     with [DomainSignature] and they will be compared automatically.
 		/// </summary>
 		/// <returns>The components to use for equality.</returns>
-		protected virtual IEnumerable<object?> GetEqualityComponents()
+		protected virtual IEnumerable<object> GetEqualityComponents()
 		{
 			PropertyAccessor[] propertyAccessors = PropertyAccessor.GetPropertyAccessors(this.GetType(),
 				property =>
@@ -192,7 +192,7 @@
 
 			foreach(PropertyAccessor accessor in propertyAccessors)
 			{
-				object? value = accessor.Invoke(this);
+				object value = accessor.Invoke(this);
 				yield return value;
 			}
 		}
@@ -204,7 +204,7 @@
 		/// <param name="field">The field reference to set.</param>
 		/// <param name="value">The value to set.</param>
 		/// <param name="propertyName">The name of the used property.</param>
-		protected void SetAndNotify<T>(ref T? field, T? value, [CallerMemberName] string propertyName = null!)
+		protected void SetAndNotify<T>(ref T field, T value, [CallerMemberName] string propertyName = null!)
 		{
 			if(!Equals(field, value))
 			{

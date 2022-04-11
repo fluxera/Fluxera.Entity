@@ -18,12 +18,12 @@
 		/// <param name="item">The underlying item of this event.</param>
 		public ItemAdded(TAggregateRoot item)
 		{
-			this.Item = item;
+			this.AddedItem = item;
 		}
 
 		/// <summary>
-		///     Gets the underlying item.
+		///     Gets the added item.
 		/// </summary>
-		public TAggregateRoot Item { get; }
+		public TAggregateRoot AddedItem { get; }
 	}
 }
