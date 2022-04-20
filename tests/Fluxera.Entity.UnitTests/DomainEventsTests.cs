@@ -1,17 +1,15 @@
 ﻿namespace Fluxera.Entity.UnitTests
 {
 	using System.Threading.Tasks;
-	using DomainEvents;
-	using EmployeeAggregate;
 	using FluentAssertions;
+	using Fluxera.Entity.DomainEvents;
+	using Fluxera.Entity.UnitTests.EmployeeAggregate;
 	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;
 
 	[TestFixture]
 	public class DomainEventsTests
 	{
-		private ServiceProvider serviceProvider;
-
 		[SetUp]
 		public void SetUp()
 		{
@@ -21,12 +19,26 @@
 			services.AddDomainEvents(builder =>
 			{
 				builder
-					.AddDomainEventHandlers<SalaryRaisedEventHandler>()
-					.AddDomainEventHandlers<AdditionalSalaryRaisedEventHandler>()
-					.AddDomainEventHandlers<SalaryRaisedCommittedEventHandler>();
+					.AddDomainEventHandler<SalaryRaisedEventHandler>()
+					.AddDomainEventHandler<AdditionalSalaryRaisedEventHandler>()
+					.AddDomainEventHandler<SalaryRaisedCommittedEventHandler>();
 			});
 
 			this.serviceProvider = services.BuildServiceProvider();
+		}
+
+		private ServiceProvider serviceProvider;
+
+		[Test]
+		public async Task ShouldExecuteCommittedDomainHandlers()
+		{
+			IDomainEventDispatcher dispatcher = this.serviceProvider.GetRequiredService<IDomainEventDispatcher>();
+
+			SalaryRaisedEvent salaryRaisedEvent = new SalaryRaisedEvent(100_000);
+			await dispatcher.DispatchCommittedAsync(salaryRaisedEvent);
+
+			salaryRaisedEvent.HandlerNames.Count.Should().Be(1);
+			salaryRaisedEvent.HandlerNames.Should().Contain(nameof(SalaryRaisedCommittedEventHandler));
 		}
 
 		[Test]
@@ -39,18 +51,6 @@
 
 			salaryRaisedEvent.HandlerNames.Count.Should().Be(2);
 			salaryRaisedEvent.HandlerNames.Should().Contain(nameof(SalaryRaisedEventHandler), nameof(AdditionalSalaryRaisedEventHandler));
-		}
-
-		[Test]
-		public async Task ShouldExecuteCommittedDomainHandlers()
-		{
-			IDomainEventDispatcher dispatcher = this.serviceProvider.GetRequiredService<IDomainEventDispatcher>();
-
-			SalaryRaisedEvent salaryRaisedEvent = new SalaryRaisedEvent(100_000);
-			await dispatcher.DispatchCommittedAsync(salaryRaisedEvent);
-
-			salaryRaisedEvent.HandlerNames.Count.Should().Be(1);
-			salaryRaisedEvent.HandlerNames.Should().Contain(nameof(SalaryRaisedCommittedEventHandler));
 		}
 
 		[Test]
@@ -76,7 +76,6 @@
 				((SalaryRaisedEvent)domainEvent).HandlerNames.Count.Should().Be(2);
 				((SalaryRaisedEvent)domainEvent).HandlerNames.Should().Contain(nameof(SalaryRaisedEventHandler), nameof(AdditionalSalaryRaisedEventHandler));
 			}
-
 		}
 	}
 }

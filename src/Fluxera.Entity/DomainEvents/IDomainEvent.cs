@@ -8,6 +8,9 @@
 	[PublicAPI]
 	public interface IDomainEvent
 	{
+		/// <summary>
+		///     Gets the name of the event.
+		/// </summary>
 		string DisplayName => this.GetType().Name;
 	}
 }

@@ -28,7 +28,7 @@
 		{
 			assemblies ??= Enumerable.Empty<Assembly>();
 
-			foreach (Assembly assembly in assemblies)
+			foreach(Assembly assembly in assemblies)
 			{
 				this.AddDomainEventHandlers(assembly);
 			}
@@ -38,7 +38,7 @@
 
 		public DomainEventHandlerBuilder AddDomainEventHandlers(Func<IEnumerable<Assembly>> assembliesFactory)
 		{
-			assembliesFactory ??= (Enumerable.Empty<Assembly>);
+			assembliesFactory ??= Enumerable.Empty<Assembly>;
 
 			IEnumerable<Assembly> assemblies = assembliesFactory.Invoke();
 			this.AddDomainEventHandlers(assemblies);
@@ -46,7 +46,7 @@
 			return this;
 		}
 
-		public DomainEventHandlerBuilder AddDomainEventHandlers<TEventHandler>()
+		public DomainEventHandlerBuilder AddDomainEventHandler<TEventHandler>()
 		{
 			this.AddDomainEventHandlers(typeof(TEventHandler));
 
@@ -57,7 +57,7 @@
 		{
 			types ??= Enumerable.Empty<Type>();
 
-			foreach (Type type in types)
+			foreach(Type type in types)
 			{
 				this.AddDomainEventHandlers(type);
 			}
@@ -67,9 +67,9 @@
 
 		public DomainEventHandlerBuilder AddDomainEventHandlers(Func<IEnumerable<Type>> typesFactory)
 		{
-			Guard.Against.Null(services, nameof(services));
+			Guard.Against.Null(this.services, nameof(this.services));
 
-			typesFactory ??= (Enumerable.Empty<Type>);
+			typesFactory ??= Enumerable.Empty<Type>;
 
 			IEnumerable<Type> types = typesFactory.Invoke();
 			this.AddDomainEventHandlers(types);
@@ -91,16 +91,16 @@
 			Guard.Against.Null(type, nameof(type));
 
 			bool isEventHandler = type.GetInterfaces().Any(x => x.GetTypeInfo().IsGenericType
-				&& (x.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>)
-					|| x.GetGenericTypeDefinition() == typeof(ICommittedDomainEventHandler<>)));
+				&& ((x.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>))
+					|| (x.GetGenericTypeDefinition() == typeof(ICommittedDomainEventHandler<>))));
 
-			if (isEventHandler && !type.GetTypeInfo().IsAbstract && !type.GetTypeInfo().IsInterface)
+			if(isEventHandler && !type.GetTypeInfo().IsAbstract && !type.GetTypeInfo().IsInterface)
 			{
 				IEnumerable<Type> eventHandlerInterfaceTypes = type.GetInterfaces().Where(x => x.GetTypeInfo().IsGenericType
-					&& (x.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>)
-						|| x.GetGenericTypeDefinition() == typeof(ICommittedDomainEventHandler<>)));
+					&& ((x.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>))
+						|| (x.GetGenericTypeDefinition() == typeof(ICommittedDomainEventHandler<>))));
 
-				foreach (Type eventHandlerInterfaceType in eventHandlerInterfaceTypes)
+				foreach(Type eventHandlerInterfaceType in eventHandlerInterfaceTypes)
 				{
 					this.services.AddTransient(eventHandlerInterfaceType, type);
 				}
