@@ -46,7 +46,7 @@
 			return this;
 		}
 
-		public DomainEventHandlerBuilder AddDomainEventHandler<TEventHandler>()
+		public DomainEventHandlerBuilder AddDomainEventHandler<TEventHandler>() where TEventHandler : IDomainEventHandler
 		{
 			this.AddDomainEventHandlers(typeof(TEventHandler));
 
@@ -91,14 +91,14 @@
 			Guard.Against.Null(type, nameof(type));
 
 			bool isEventHandler = type.GetInterfaces().Any(x => x.GetTypeInfo().IsGenericType
-				&& ((x.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>))
-					|| (x.GetGenericTypeDefinition() == typeof(ICommittedDomainEventHandler<>))));
+				&& (x.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>)
+					|| x.GetGenericTypeDefinition() == typeof(ICommittedDomainEventHandler<>)));
 
 			if(isEventHandler && !type.GetTypeInfo().IsAbstract && !type.GetTypeInfo().IsInterface)
 			{
 				IEnumerable<Type> eventHandlerInterfaceTypes = type.GetInterfaces().Where(x => x.GetTypeInfo().IsGenericType
-					&& ((x.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>))
-						|| (x.GetGenericTypeDefinition() == typeof(ICommittedDomainEventHandler<>))));
+					&& (x.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>)
+						|| x.GetGenericTypeDefinition() == typeof(ICommittedDomainEventHandler<>)));
 
 				foreach(Type eventHandlerInterfaceType in eventHandlerInterfaceTypes)
 				{
