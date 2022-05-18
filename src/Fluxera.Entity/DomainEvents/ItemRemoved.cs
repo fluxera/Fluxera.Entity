@@ -19,14 +19,14 @@ namespace Fluxera.Entity.DomainEvents
 		/// <param name="id">The id of the underlying item of this event.</param>
 		public ItemRemoved(TAggregateRoot item, TKey id)
 		{
-			this.DeletedItem = item;
+			this.RemovedItem = item;
 			this.ID = id;
 		}
 
 		/// <summary>
 		///     Gets the deleted item (has no ID anymore).
 		/// </summary>
-		public TAggregateRoot DeletedItem { get; }
+		public TAggregateRoot RemovedItem { get; }
 
 		/// <summary>
 		///     Gets the id of deleted item.
