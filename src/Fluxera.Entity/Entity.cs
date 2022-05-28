@@ -2,10 +2,10 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using System.ComponentModel;
 	using System.ComponentModel.DataAnnotations;
 	using System.Linq;
-	using System.Runtime.CompilerServices;
+	using System.Runtime.Serialization;
+	using Fluxera.ComponentModel.Annotations;
 	using Fluxera.Entity.DomainEvents;
 	using JetBrains.Annotations;
 
@@ -15,8 +15,9 @@
 	/// <typeparam name="TEntity">The entity type.</typeparam>
 	/// <typeparam name="TKey">The ID type.</typeparam>
 	[PublicAPI]
-	public abstract class Entity<TEntity, TKey> : INotifyPropertyChanging, INotifyPropertyChanged
+	public abstract class Entity<TEntity, TKey>
 		where TEntity : Entity<TEntity, TKey>
+		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <summary>
 		///     To ensure hashcode uniqueness, a carefully selected random number multiplier
@@ -28,14 +29,6 @@
 		private const int HashMultiplier = 37;
 
 		/// <summary>
-		///     Creates a new instance of the <see cref="Entity{TEntity,TKey}" /> type.
-		/// </summary>
-		protected Entity()
-		{
-			this.Init();
-		}
-
-		/// <summary>
 		///     The unique ID of the entity.
 		/// </summary>
 		[Key]
@@ -44,11 +37,15 @@
 		/// <summary>
 		///     The domain events of this entity.
 		/// </summary>
+		[Ignore]
+		[IgnoreDataMember]
 		public ICollection<IDomainEvent> DomainEvents { get; } = new List<IDomainEvent>();
 
 		/// <summary>
 		///     Gets a flag, if the entity instance is transient (not stored to the storage).
 		/// </summary>
+		[Ignore]
+		[IgnoreDataMember]
 		public virtual bool IsTransient
 		{
 			get
@@ -66,12 +63,6 @@
 				return isTransient;
 			}
 		}
-
-		/// <inheritdoc />
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		/// <inheritdoc />
-		public event PropertyChangingEventHandler PropertyChanging;
 
 		/// <summary>
 		///     Checks two instances of <see cref="Entity{TEntity,TKey}" /> are equal.
@@ -126,7 +117,7 @@
 			// Since the IDs aren't the same, both of them must be transient to
 			// compare domain signatures; because if one is transient and the
 			// other is a persisted entity, then they cannot be the same object.
-			return (this.GetType() == other.GetUnProxiedType())
+			return this.GetType() == other.GetUnProxiedType()
 				&& this.IsTransient
 				&& other.IsTransient
 				&& this.GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
@@ -146,7 +137,7 @@
 				{
 					if(component != null)
 					{
-						hashCode = (hashCode * HashMultiplier) ^ component.GetHashCode();
+						hashCode = hashCode * HashMultiplier ^ component.GetHashCode();
 					}
 				}
 
@@ -198,44 +189,12 @@
 		}
 
 		/// <summary>
-		///     Sets the references fields value to the given value and publishes notification events.
-		/// </summary>
-		/// <typeparam name="T">The type of the value.</typeparam>
-		/// <param name="field">The field reference to set.</param>
-		/// <param name="value">The value to set.</param>
-		/// <param name="propertyName">The name of the used property.</param>
-		protected void SetAndNotify<T>(ref T field, T value, [CallerMemberName] string propertyName = null!)
-		{
-			if(!Equals(field, value))
-			{
-				this.OnPropertyChanging(propertyName);
-				field = value;
-				this.OnPropertyChanged(propertyName);
-			}
-		}
-
-		private void OnPropertyChanging(string propertyName)
-		{
-			this.PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
-		}
-
-		private void OnPropertyChanged(string propertyName)
-		{
-			this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-
-		/// <summary>
 		///     Returns true if self and the provided entity have the same ID values
 		///     and the IDs are not of the default ID value.
 		/// </summary>
 		private bool HasSameNonDefaultIdentifierAs(Entity<TEntity, TKey> compareTo)
 		{
 			return !this.IsTransient && !compareTo.IsTransient && Equals(this.ID, compareTo.ID);
-		}
-
-		private void Init()
-		{
-			this.ID = default;
 		}
 	}
 }

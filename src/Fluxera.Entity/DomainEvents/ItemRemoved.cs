@@ -1,5 +1,6 @@
 namespace Fluxera.Entity.DomainEvents
 {
+	using System;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -11,6 +12,7 @@ namespace Fluxera.Entity.DomainEvents
 	[PublicAPI]
 	public sealed class ItemRemoved<TAggregateRoot, TKey> : IDomainEvent
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <summary>
 		///     Creates a new instance of the <see cref="ItemRemoved{TAggregateRoot,TKey}" /> type.

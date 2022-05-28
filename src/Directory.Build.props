@@ -20,7 +20,6 @@
 		<PackageProjectUrl>https://github.com/fluxera/Fluxera.Guard</PackageProjectUrl>
 		<PackageIcon>icon.png</PackageIcon>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<IncludeSymbols>false</IncludeSymbols>
 		<NeutralLanguage>en</NeutralLanguage>
 		<RepositoryType>git</RepositoryType>

@@ -1,5 +1,6 @@
 ﻿namespace Fluxera.Entity
 {
+	using System;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -10,6 +11,7 @@
 	[PublicAPI]
 	public abstract class AggregateRoot<TAggregateRoot, TKey> : Entity<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 	}
 }
