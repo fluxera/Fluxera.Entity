@@ -22,6 +22,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="Fluxera.ComponentModel.Annotations" Version="6.0.9" />
 		<PackageReference Include="Fluxera.Guards" Version="6.0.22" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.10.1">
 		  <PrivateAssets>all</PrivateAssets>

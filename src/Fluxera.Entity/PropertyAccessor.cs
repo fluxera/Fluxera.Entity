@@ -10,9 +10,9 @@
 	[PublicAPI]
 	internal sealed class PropertyAccessor
 	{
-		private static readonly ConcurrentDictionary<Type, PropertyAccessor[]> propertyAccessorsMap = new ConcurrentDictionary<Type, PropertyAccessor[]>();
+		private static readonly ConcurrentDictionary<Type, PropertyAccessor[]> PropertyAccessorsMap = new ConcurrentDictionary<Type, PropertyAccessor[]>();
 
-		private static readonly MethodInfo callInnerDelegateMethod = typeof(PropertyAccessor).GetMethod(nameof(CallInnerDelegate), BindingFlags.NonPublic | BindingFlags.Static)!;
+		private static readonly MethodInfo CallInnerDelegateMethod = typeof(PropertyAccessor).GetMethod(nameof(CallInnerDelegate), BindingFlags.NonPublic | BindingFlags.Static)!;
 
 		private PropertyAccessor(string propertyName, Func<object, object> getterFunc)
 		{
@@ -34,7 +34,7 @@
 
 		public static PropertyAccessor[] GetPropertyAccessors(Type type, Predicate<PropertyInfo> predicate)
 		{
-			return propertyAccessorsMap
+			return PropertyAccessorsMap
 				.GetOrAdd(type, _ => type
 					.GetProperties()
 					.Where(predicate.Invoke)
@@ -46,7 +46,7 @@
 
 						Type getMethodDelegateType = typeof(Func<,>).MakeGenericType(declaringType, propertyType);
 						Delegate getMethodDelegate = getMethod.CreateDelegate(getMethodDelegateType);
-						MethodInfo callInnerGenericMethodWithTypes = callInnerDelegateMethod.MakeGenericMethod(declaringType, propertyType);
+						MethodInfo callInnerGenericMethodWithTypes = CallInnerDelegateMethod.MakeGenericMethod(declaringType, propertyType);
 						Func<object, object> getter = (Func<object, object>)callInnerGenericMethodWithTypes.Invoke(null, new object[] { getMethodDelegate });
 
 						return new PropertyAccessor(property.Name, getter);

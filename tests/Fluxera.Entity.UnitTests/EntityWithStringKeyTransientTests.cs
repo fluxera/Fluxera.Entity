@@ -23,7 +23,7 @@
 		[Test]
 		public void ShouldReturnTrueForTransientEntityForEmpty()
 		{
-			Employee employee = new Employee
+			EmployeeStringId employee = new EmployeeStringId
 			{
 				ID = string.Empty,
 				Name = "James Bond",
@@ -51,7 +51,7 @@
 		[Test]
 		public void ShouldReturnTrueForTransientEntityForOnlyWhitespace()
 		{
-			Employee employee = new Employee
+			EmployeeStringId employee = new EmployeeStringId
 			{
 				ID = "     ",
 				Name = "James Bond",

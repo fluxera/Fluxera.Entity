@@ -1,5 +1,6 @@
 namespace Fluxera.Entity.DomainEvents
 {
+	using System;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -11,6 +12,7 @@ namespace Fluxera.Entity.DomainEvents
 	[PublicAPI]
 	public sealed class ItemRemoved<TAggregateRoot, TKey> : IDomainEvent
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+		where TKey : IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <summary>
 		///     Creates a new instance of the <see cref="ItemRemoved{TAggregateRoot,TKey}" /> type.
@@ -19,14 +21,14 @@ namespace Fluxera.Entity.DomainEvents
 		/// <param name="id">The id of the underlying item of this event.</param>
 		public ItemRemoved(TAggregateRoot item, TKey id)
 		{
-			this.DeletedItem = item;
+			this.RemovedItem = item;
 			this.ID = id;
 		}
 
 		/// <summary>
 		///     Gets the deleted item (has no ID anymore).
 		/// </summary>
-		public TAggregateRoot DeletedItem { get; }
+		public TAggregateRoot RemovedItem { get; }
 
 		/// <summary>
 		///     Gets the id of deleted item.

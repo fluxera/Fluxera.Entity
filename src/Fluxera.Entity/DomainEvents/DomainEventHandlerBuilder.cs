@@ -8,22 +8,28 @@
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
 
+	/// <summary>
+	///     A builder for configuring the domain event handlers.
+	/// </summary>
 	[PublicAPI]
 	public sealed class DomainEventHandlerBuilder
 	{
 		private readonly IServiceCollection services;
 
+		/// <summary>
+		///     Initializes a new instance of the <see cref="DomainEventHandlerBuilder" /> type.
+		/// </summary>
+		/// <param name="services"></param>
 		public DomainEventHandlerBuilder(IServiceCollection services)
 		{
 			this.services = services;
 		}
 
-		public DomainEventHandlerBuilder AddDomainEventHandlers()
-		{
-			this.AddDomainEventHandlers(Assembly.GetExecutingAssembly());
-			return this;
-		}
-
+		/// <summary>
+		///     Add the domain handlers available in the given assemblies.
+		/// </summary>
+		/// <param name="assemblies"></param>
+		/// <returns></returns>
 		public DomainEventHandlerBuilder AddDomainEventHandlers(IEnumerable<Assembly> assemblies)
 		{
 			assemblies ??= Enumerable.Empty<Assembly>();
@@ -36,23 +42,26 @@
 			return this;
 		}
 
-		public DomainEventHandlerBuilder AddDomainEventHandlers(Func<IEnumerable<Assembly>> assembliesFactory)
-		{
-			assembliesFactory ??= Enumerable.Empty<Assembly>;
 
-			IEnumerable<Assembly> assemblies = assembliesFactory.Invoke();
-			this.AddDomainEventHandlers(assemblies);
+		/// <summary>
+		///     Add the domain handlers available in the given assembly.
+		/// </summary>
+		/// <param name="assembly"></param>
+		/// <returns></returns>
+		public DomainEventHandlerBuilder AddDomainEventHandlers(Assembly assembly)
+		{
+			Guard.Against.Null(assembly, nameof(assembly));
+
+			this.AddDomainEventHandlers(assembly.GetTypes().AsEnumerable());
 
 			return this;
 		}
 
-		public DomainEventHandlerBuilder AddDomainEventHandler<TEventHandler>() where TEventHandler : IDomainEventHandler
-		{
-			this.AddDomainEventHandlers(typeof(TEventHandler));
-
-			return this;
-		}
-
+		/// <summary>
+		///     Add the domain handlers from the given types.
+		/// </summary>
+		/// <param name="types"></param>
+		/// <returns></returns>
 		public DomainEventHandlerBuilder AddDomainEventHandlers(IEnumerable<Type> types)
 		{
 			types ??= Enumerable.Empty<Type>();
@@ -65,27 +74,23 @@
 			return this;
 		}
 
-		public DomainEventHandlerBuilder AddDomainEventHandlers(Func<IEnumerable<Type>> typesFactory)
+		/// <summary>
+		///     Add the given domain handler.
+		/// </summary>
+		/// <typeparam name="TEventHandler"></typeparam>
+		/// <returns></returns>
+		public DomainEventHandlerBuilder AddDomainEventHandler<TEventHandler>() where TEventHandler : IDomainEventHandler
 		{
-			Guard.Against.Null(this.services, nameof(this.services));
-
-			typesFactory ??= Enumerable.Empty<Type>;
-
-			IEnumerable<Type> types = typesFactory.Invoke();
-			this.AddDomainEventHandlers(types);
+			this.AddDomainEventHandlers(typeof(TEventHandler));
 
 			return this;
 		}
 
-		public DomainEventHandlerBuilder AddDomainEventHandlers(Assembly assembly)
-		{
-			Guard.Against.Null(assembly, nameof(assembly));
-
-			this.AddDomainEventHandlers(assembly.GetTypes().AsEnumerable());
-
-			return this;
-		}
-
+		/// <summary>
+		///     Add the given domain handler type.
+		/// </summary>
+		/// <param name="type"></param>
+		/// <returns></returns>
 		public DomainEventHandlerBuilder AddDomainEventHandlers(Type type)
 		{
 			Guard.Against.Null(type, nameof(type));
