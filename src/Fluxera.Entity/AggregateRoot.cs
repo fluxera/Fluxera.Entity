@@ -11,7 +11,7 @@
 	[PublicAPI]
 	public abstract class AggregateRoot<TAggregateRoot, TKey> : Entity<TAggregateRoot, TKey>
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
-		where TKey : IComparable<TKey>, IEquatable<TKey>
+		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{
 	}
 }
