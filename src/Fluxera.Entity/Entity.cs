@@ -17,7 +17,7 @@
 	[PublicAPI]
 	public abstract class Entity<TEntity, TKey>
 		where TEntity : Entity<TEntity, TKey>
-		where TKey : IComparable<TKey>, IEquatable<TKey>
+		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{
 		/// <summary>
 		///     To ensure hashcode uniqueness, a carefully selected random number multiplier
