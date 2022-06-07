@@ -4,10 +4,10 @@
 An aggregate root and entity objects library.
 
 This library helps in implementing **Entity**, **Aggregate Root**  and **Domain Events**.
-The base class for entities implement **Equality** and **Uniquness** based on selected 
+The base class for entities implement **Equality** and **Uniqueness** based on selected 
 attributes of the entity instead of the references. 
 
-## Equality and Uniquness
+## Equality and Uniqueness
 
 The equality check consist of two major steps:
 
