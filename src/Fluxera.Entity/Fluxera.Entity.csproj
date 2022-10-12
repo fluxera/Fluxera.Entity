@@ -24,14 +24,14 @@
 	<ItemGroup>
 		<PackageReference Include="Fluxera.ComponentModel.Annotations" Version="6.1.1" />
 		<PackageReference Include="Fluxera.Guards" Version="6.1.0" />
-		<PackageReference Include="Fluxera.StronglyTypedId" Version="6.1.5" />
+		<PackageReference Include="Fluxera.StronglyTypedId" Version="6.1.6" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.10.3">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="JetBrains.Annotations" Version="2022.1.0" />
 		<PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
 		<PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
 	</ItemGroup>
 
