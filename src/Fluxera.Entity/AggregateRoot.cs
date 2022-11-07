@@ -1,6 +1,11 @@
 ﻿namespace Fluxera.Entity
 {
 	using System;
+	using System.Collections.Generic;
+	using System.Runtime.Serialization;
+	using Fluxera.ComponentModel.Annotations;
+	using Fluxera.Entity.DomainEvents;
+	using Fluxera.Utilities.Extensions;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -13,5 +18,30 @@
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{
+		private IList<IDomainEvent> domainEvents = new List<IDomainEvent>();
+
+		/// <summary>
+		///     The domain events of this entity.
+		/// </summary>
+		[Ignore]
+		[IgnoreDataMember]
+		public IReadOnlyCollection<IDomainEvent> DomainEvents => this.domainEvents.AsReadOnly();
+
+		/// <summary>
+		///     Adds the given event to the list of raised domain events.
+		/// </summary>
+		/// <param name="domainEvent"></param>
+		public void RaiseDomainEvent(IDomainEvent domainEvent)
+		{
+			this.domainEvents.Add(domainEvent);
+		}
+
+		/// <summary>
+		///     Clears the list of raised domain events.
+		/// </summary>
+		public void ClearDomainEvents()
+		{
+			this.domainEvents.Clear();
+		}
 	}
 }

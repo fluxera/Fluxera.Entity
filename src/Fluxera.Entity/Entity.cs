@@ -6,7 +6,6 @@
 	using System.Linq;
 	using System.Runtime.Serialization;
 	using Fluxera.ComponentModel.Annotations;
-	using Fluxera.Entity.DomainEvents;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -33,13 +32,6 @@
 		/// </summary>
 		[Key]
 		public virtual TKey ID { get; set; }
-
-		/// <summary>
-		///     The domain events of this entity.
-		/// </summary>
-		[Ignore]
-		[IgnoreDataMember]
-		public ICollection<IDomainEvent> DomainEvents { get; } = new List<IDomainEvent>();
 
 		/// <summary>
 		///     Gets a flag, if the entity instance is transient (not stored to the storage).
@@ -172,9 +164,9 @@
 					bool isDomainSignatureAttribute = property.IsDefined(typeof(DomainSignatureAttribute), true);
 					if(isDomainSignatureAttribute)
 					{
-						if(property.Name is nameof(this.ID) or nameof(this.DomainEvents) or nameof(this.IsTransient))
+						if(property.Name is nameof(this.ID) or nameof(DomainEvents) or nameof(this.IsTransient))
 						{
-							throw new InvalidOperationException($"The property {property.Name} cannot belong to the domain signature.");
+							throw new InvalidOperationException($"The property {property.Name} can't belong to the domain signature.");
 						}
 					}
 
