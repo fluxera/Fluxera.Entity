@@ -5,8 +5,8 @@
 
 	/// <summary>
 	///     A contract for implementing domain event handlers, which must be registered
-	///     using dependency injection. Handlers of this type must be executed after
-	///     storing the entity to a storage.
+	///     using dependency injection. Handlers of this type are executed after
+	///     committing changes to a storage.
 	/// </summary>
 	/// <typeparam name="TDomainEvent">The type of the domain event to handle.</typeparam>
 	[PublicAPI]

@@ -113,5 +113,18 @@
 
 			return this;
 		}
+
+		/// <summary>
+		///     Adds the provided domain dispatcher service.
+		/// </summary>
+		/// <typeparam name="TDispatcher"></typeparam>
+		/// <returns></returns>
+		public DomainEventHandlerBuilder AddDomainEventDispatcher<TDispatcher>()
+			where TDispatcher : class, IDomainEventDispatcher
+		{
+			this.services.AddDomainEventDispatcher<TDispatcher>();
+
+			return this;
+		}
 	}
 }
