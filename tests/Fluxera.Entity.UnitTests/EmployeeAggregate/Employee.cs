@@ -23,7 +23,7 @@
 
 			this.Salary += raiseAmount;
 
-			this.DomainEvents.Add(new SalaryRaisedEvent(this.Salary));
+			this.RaiseDomainEvent(new SalaryRaisedEvent(this.Salary));
 		}
 	}
 }

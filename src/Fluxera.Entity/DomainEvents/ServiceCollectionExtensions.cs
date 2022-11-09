@@ -31,5 +31,20 @@
 
 			return services;
 		}
+
+		/// <summary>
+		///     Adds the provided domain dispatcher service.
+		/// </summary>
+		/// <typeparam name="TDispatcher"></typeparam>
+		/// <param name="services"></param>
+		/// <returns></returns>
+		public static IServiceCollection AddDomainEventDispatcher<TDispatcher>(this IServiceCollection services)
+			where TDispatcher : class, IDomainEventDispatcher
+		{
+			services.RemoveAll<IDomainEventDispatcher>();
+			services.AddTransient<IDomainEventDispatcher, TDispatcher>();
+
+			return services;
+		}
 	}
 }
