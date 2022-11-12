@@ -1,6 +1,7 @@
 namespace Fluxera.Entity.DomainEvents
 {
 	using System;
+	using Fluxera.Guards;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -19,20 +20,20 @@ namespace Fluxera.Entity.DomainEvents
 		/// </summary>
 		/// <param name="item">The underlying item of this event.</param>
 		/// <param name="id">The id of the underlying item of this event.</param>
-		public ItemRemoved(TAggregateRoot item, TKey id)
+		public ItemRemoved(TKey id, TAggregateRoot item)
 		{
-			this.RemovedItem = item;
-			this.ID = id;
+			this.ID = Guard.Against.Null(id);
+			this.RemovedItem = Guard.Against.Null(item);
 		}
-
-		/// <summary>
-		///     Gets the deleted item (has no ID anymore).
-		/// </summary>
-		public TAggregateRoot RemovedItem { get; }
 
 		/// <summary>
 		///     Gets the id of deleted item.
 		/// </summary>
 		public TKey ID { get; }
+
+		/// <summary>
+		///     Gets the deleted item (has no ID anymore).
+		/// </summary>
+		public TAggregateRoot RemovedItem { get; }
 	}
 }

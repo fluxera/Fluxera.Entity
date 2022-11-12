@@ -1,6 +1,7 @@
 ﻿namespace Fluxera.Entity.DomainEvents
 {
 	using System;
+	using Fluxera.Guards;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -21,8 +22,8 @@
 		/// <param name="afterUpdateItem">The underlying item of this event.</param>
 		public ItemUpdated(TAggregateRoot beforeUpdateItem, TAggregateRoot afterUpdateItem)
 		{
-			this.BeforeUpdateItem = beforeUpdateItem;
-			this.AfterUpdateItem = afterUpdateItem;
+			this.BeforeUpdateItem = Guard.Against.Null(beforeUpdateItem);
+			this.AfterUpdateItem = Guard.Against.Null(afterUpdateItem);
 		}
 
 		/// <summary>

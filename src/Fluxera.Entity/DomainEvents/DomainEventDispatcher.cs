@@ -8,8 +8,12 @@ namespace Fluxera.Entity.DomainEvents
 	using Microsoft.Extensions.DependencyInjection;
 
 	/// <summary>
-	///     See: https://lostechies.com/jimmybogard/2014/05/13/a-better-domain-events-pattern/
+	///     A default implementation of the <see cref="IDomainEventDispatcher" /> contract that
+	///     dispatches domains events in-memory using a <see cref="IServiceProvider" /> instance.
 	/// </summary>
+	/// <remarks>
+	///     See: https://lostechies.com/jimmybogard/2014/05/13/a-better-domain-events-pattern/
+	/// </remarks>
 	[PublicAPI]
 	public class DomainEventDispatcher : IDomainEventDispatcher
 	{

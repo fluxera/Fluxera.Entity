@@ -9,7 +9,7 @@
 	using JetBrains.Annotations;
 
 	/// <summary>
-	///     A base class for all entities.
+	///     A base class for entities.
 	/// </summary>
 	/// <typeparam name="TEntity">The entity type.</typeparam>
 	/// <typeparam name="TKey">The ID type.</typeparam>

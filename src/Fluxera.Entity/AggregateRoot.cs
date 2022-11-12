@@ -9,7 +9,7 @@
 	using JetBrains.Annotations;
 
 	/// <summary>
-	///     A base class for all aggregate root entities.
+	///     A base class for aggregate roots.
 	/// </summary>
 	/// <typeparam name="TAggregateRoot">The aggregate root type.</typeparam>
 	/// <typeparam name="TKey">The ID type.</typeparam>

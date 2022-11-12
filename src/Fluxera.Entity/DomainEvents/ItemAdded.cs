@@ -1,6 +1,7 @@
 ﻿namespace Fluxera.Entity.DomainEvents
 {
 	using System;
+	using Fluxera.Guards;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -20,7 +21,7 @@
 		/// <param name="item">The underlying item of this event.</param>
 		public ItemAdded(TAggregateRoot item)
 		{
-			this.AddedItem = item;
+			this.AddedItem = Guard.Against.Null(item);
 		}
 
 		/// <summary>
