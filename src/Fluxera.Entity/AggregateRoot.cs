@@ -5,7 +5,6 @@
 	using System.Runtime.Serialization;
 	using Fluxera.ComponentModel.Annotations;
 	using Fluxera.Entity.DomainEvents;
-	using Fluxera.Utilities.Extensions;
 	using JetBrains.Annotations;
 
 	/// <summary>
