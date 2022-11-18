@@ -29,30 +29,10 @@ namespace Fluxera.Entity.DomainEvents
 		}
 
 		/// <inheritdoc />
-		public virtual Task DispatchAsync(IDomainEvent domainEvent)
-		{
-			return this.DispatchAsync(domainEvent, false);
-		}
-
-		/// <inheritdoc />
-		public virtual Task DispatchCommittedAsync(IDomainEvent domainEvent)
-		{
-			return this.DispatchAsync(domainEvent, true);
-		}
-
-		/// <summary>
-		///     Dispatches the given domain event to registered domain event handlers.
-		/// </summary>
-		/// <param name="domainEvent"></param>
-		/// <param name="dispatchCommitted"></param>
-		/// <returns></returns>
-		protected async Task DispatchAsync(IDomainEvent domainEvent, bool dispatchCommitted)
+		public async Task DispatchAsync(IDomainEvent domainEvent)
 		{
 			Type eventType = domainEvent.GetType();
-
-			Type eventHandlerType = dispatchCommitted
-				? typeof(ICommittedDomainEventHandler<>).MakeGenericType(eventType)
-				: typeof(IDomainEventHandler<>).MakeGenericType(eventType);
+			Type eventHandlerType = typeof(IDomainEventHandler<>).MakeGenericType(eventType);
 
 			IList<dynamic> handlers = this.serviceProvider.GetServices(eventHandlerType).ToList();
 			foreach(dynamic handler in handlers)

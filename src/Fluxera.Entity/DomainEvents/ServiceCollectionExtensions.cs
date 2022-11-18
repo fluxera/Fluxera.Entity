@@ -20,8 +20,8 @@
 		/// <returns></returns>
 		public static IServiceCollection AddDomainEvents(this IServiceCollection services, Action<DomainEventHandlerBuilder> configureHandlers)
 		{
-			Guard.Against.Null(services, nameof(services));
-			Guard.Against.Null(configureHandlers, nameof(configureHandlers));
+			Guard.Against.Null(services);
+			Guard.Against.Null(configureHandlers);
 
 			// Register domain event dispatcher.
 			services.TryAddTransient<IDomainEventDispatcher, DomainEventDispatcher>();
