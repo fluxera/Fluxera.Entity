@@ -20,26 +20,13 @@
 			{
 				builder
 					.AddDomainEventHandler<SalaryRaisedEventHandler>()
-					.AddDomainEventHandler<AdditionalSalaryRaisedEventHandler>()
-					.AddDomainEventHandler<SalaryRaisedCommittedEventHandler>();
+					.AddDomainEventHandler<AdditionalSalaryRaisedEventHandler>();
 			});
 
 			this.serviceProvider = services.BuildServiceProvider();
 		}
 
 		private ServiceProvider serviceProvider;
-
-		[Test]
-		public async Task ShouldExecuteCommittedDomainHandlers()
-		{
-			IDomainEventDispatcher dispatcher = this.serviceProvider.GetRequiredService<IDomainEventDispatcher>();
-
-			SalaryRaisedEvent salaryRaisedEvent = new SalaryRaisedEvent(100_000);
-			await dispatcher.DispatchCommittedAsync(salaryRaisedEvent);
-
-			salaryRaisedEvent.HandlerNames.Count.Should().Be(1);
-			salaryRaisedEvent.HandlerNames.Should().Contain(nameof(SalaryRaisedCommittedEventHandler));
-		}
 
 		[Test]
 		public async Task ShouldExecuteDomainHandlers()
