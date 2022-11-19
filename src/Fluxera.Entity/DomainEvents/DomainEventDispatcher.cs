@@ -29,7 +29,7 @@ namespace Fluxera.Entity.DomainEvents
 		}
 
 		/// <inheritdoc />
-		public async Task DispatchAsync(IDomainEvent domainEvent)
+		public virtual async Task DispatchAsync(IDomainEvent domainEvent)
 		{
 			Type eventType = domainEvent.GetType();
 			Type eventHandlerType = typeof(IDomainEventHandler<>).MakeGenericType(eventType);

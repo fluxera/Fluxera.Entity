@@ -115,7 +115,7 @@
 		}
 
 		/// <summary>
-		///     Adds the provided domain dispatcher service.
+		///     Adds the provided domain dispatcher service as scoped.
 		/// </summary>
 		/// <typeparam name="TDispatcher"></typeparam>
 		/// <returns></returns>

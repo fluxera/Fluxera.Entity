@@ -1,4 +1,7 @@
-﻿namespace Fluxera.Entity
+﻿// ReSharper disable AssignNullToNotNullAttribute
+// ReSharper disable PossibleNullReferenceException
+
+namespace Fluxera.Entity
 {
 	using System;
 	using System.Collections.Concurrent;

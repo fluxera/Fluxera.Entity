@@ -13,7 +13,7 @@
 	public static class ServiceCollectionExtensions
 	{
 		/// <summary>
-		///     Adds the domain events services.
+		///     Adds the domain events services. The domain events dispatcher is register as scoped.
 		/// </summary>
 		/// <param name="services"></param>
 		/// <param name="configureHandlers"></param>
@@ -24,7 +24,7 @@
 			Guard.Against.Null(configureHandlers);
 
 			// Register domain event dispatcher.
-			services.TryAddTransient<IDomainEventDispatcher, DomainEventDispatcher>();
+			services.AddDomainEventDispatcher<DomainEventDispatcher>();
 
 			// Configure the domain event handlers.
 			configureHandlers.Invoke(new DomainEventHandlerBuilder(services));
@@ -33,7 +33,7 @@
 		}
 
 		/// <summary>
-		///     Adds the provided domain dispatcher service.
+		///     Adds the provided domain dispatcher service as scoped.
 		/// </summary>
 		/// <typeparam name="TDispatcher"></typeparam>
 		/// <param name="services"></param>
@@ -42,7 +42,7 @@
 			where TDispatcher : class, IDomainEventDispatcher
 		{
 			services.RemoveAll<IDomainEventDispatcher>();
-			services.AddTransient<IDomainEventDispatcher, TDispatcher>();
+			services.AddScoped<IDomainEventDispatcher, TDispatcher>();
 
 			return services;
 		}
