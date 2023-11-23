@@ -6,6 +6,9 @@
 	using Fluxera.ComponentModel.Annotations;
 	using Fluxera.Entity.DomainEvents;
 	using JetBrains.Annotations;
+#if NET6_0
+	using Fluxera.Utilities.Extensions;
+#endif
 
 	/// <summary>
 	///     A base class for aggregate roots.
