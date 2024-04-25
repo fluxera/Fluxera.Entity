@@ -1,5 +1,6 @@
 ﻿namespace Fluxera.Entity.UnitTests
 {
+	using System.Reflection;
 	using System.Threading.Tasks;
 	using FluentAssertions;
 	using Fluxera.Entity.DomainEvents;
@@ -18,9 +19,7 @@
 			// A domain event support.
 			services.AddDomainEvents(builder =>
 			{
-				builder
-					.AddDomainEventHandler<SalaryRaisedEventHandler>()
-					.AddDomainEventHandler<AdditionalSalaryRaisedEventHandler>();
+				builder.AddDomainEventHandlers(Assembly.GetExecutingAssembly());
 			});
 
 			this.serviceProvider = services.BuildServiceProvider();

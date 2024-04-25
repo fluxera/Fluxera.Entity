@@ -1,6 +1,7 @@
 ﻿namespace Fluxera.Entity.DomainEvents
 {
 	using System;
+	using System.Reflection;
 	using Fluxera.Guards;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
@@ -18,16 +19,22 @@
 		/// <param name="services"></param>
 		/// <param name="configureHandlers"></param>
 		/// <returns></returns>
-		public static IServiceCollection AddDomainEvents(this IServiceCollection services, Action<DomainEventHandlerBuilder> configureHandlers)
+		public static IServiceCollection AddDomainEvents(this IServiceCollection services, Action<IDomainEventHandlerBuilder> configureHandlers)
 		{
 			Guard.Against.Null(services);
 			Guard.Against.Null(configureHandlers);
 
+			// Configure MediatR services.
+			services.AddMediatR(cfg =>
+			{
+				cfg.RegisterServicesFromAssembly(Assembly.GetCallingAssembly());
+
+				// Configure the domain event handlers.
+				configureHandlers.Invoke(new DomainEventHandlerBuilder(cfg));
+			});
+
 			// Register domain event dispatcher.
 			services.AddDomainEventDispatcher<DomainEventDispatcher>();
-
-			// Configure the domain event handlers.
-			configureHandlers.Invoke(new DomainEventHandlerBuilder(services));
 
 			return services;
 		}
