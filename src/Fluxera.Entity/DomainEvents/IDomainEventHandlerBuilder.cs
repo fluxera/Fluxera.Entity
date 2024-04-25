@@ -23,5 +23,13 @@
 		/// <param name="assembly"></param>
 		/// <returns></returns>
 		IDomainEventHandlerBuilder AddDomainEventHandlers(Assembly assembly);
+
+		/// <summary>
+		///     Adds the provided domain dispatcher service as scoped.
+		/// </summary>
+		/// <typeparam name="TDispatcher"></typeparam>
+		/// <returns></returns>
+		IDomainEventHandlerBuilder AddDomainEventDispatcher<TDispatcher>()
+			where TDispatcher : class, IDomainEventDispatcher;
 	}
 }
