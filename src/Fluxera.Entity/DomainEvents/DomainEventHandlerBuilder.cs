@@ -14,25 +14,24 @@
 	internal sealed class DomainEventHandlerBuilder : IDomainEventHandlerBuilder
 	{
 		private readonly IServiceCollection services;
-		private readonly MediatRServiceConfiguration configuration;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="DomainEventHandlerBuilder" /> type.
 		/// </summary>
 		/// <param name="services"></param>
-		/// <param name="configuration"></param>
-		public DomainEventHandlerBuilder(IServiceCollection services, MediatRServiceConfiguration configuration)
+		public DomainEventHandlerBuilder(IServiceCollection services)
 		{
 			this.services = services;
-			this.configuration = configuration;
 		}
-
 
 		public IDomainEventHandlerBuilder AddDomainEventHandlers(IEnumerable<Assembly> assemblies)
 		{
 			assemblies ??= Enumerable.Empty<Assembly>();
 
-			this.configuration.RegisterServicesFromAssemblies(assemblies.ToArray());
+			this.services.AddMediatR(cfg =>
+			{
+				cfg.RegisterServicesFromAssemblies(assemblies.ToArray());
+			});
 
 			return this;
 		}
@@ -41,7 +40,10 @@
 		{
 			assembly = Guard.Against.Null(assembly);
 
-			this.configuration.RegisterServicesFromAssembly(assembly);
+			this.services.AddMediatR(cfg =>
+			{
+				cfg.RegisterServicesFromAssembly(assembly);
+			});
 
 			return this;
 		}

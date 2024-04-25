@@ -28,13 +28,13 @@
 			services.AddMediatR(cfg =>
 			{
 				cfg.RegisterServicesFromAssembly(Assembly.GetCallingAssembly());
-
-				// Configure the domain event handlers.
-				configureHandlers.Invoke(new DomainEventHandlerBuilder(services, cfg));
 			});
 
 			// Register domain event dispatcher.
 			services.AddDomainEventDispatcher<DomainEventDispatcher>();
+
+			// Configure the domain event handlers.
+			configureHandlers.Invoke(new DomainEventHandlerBuilder(services));
 
 			return services;
 		}
