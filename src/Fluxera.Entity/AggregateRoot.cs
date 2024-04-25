@@ -20,7 +20,7 @@
 		where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
 		where TKey : notnull, IComparable<TKey>, IEquatable<TKey>
 	{
-		private IList<IDomainEvent> domainEvents = new List<IDomainEvent>();
+		private readonly IList<IDomainEvent> domainEvents = new List<IDomainEvent>();
 
 		/// <summary>
 		///     The domain events of this entity.
