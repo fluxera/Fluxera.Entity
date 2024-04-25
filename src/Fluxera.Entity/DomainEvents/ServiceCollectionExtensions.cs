@@ -30,7 +30,7 @@
 				cfg.RegisterServicesFromAssembly(Assembly.GetCallingAssembly());
 
 				// Configure the domain event handlers.
-				configureHandlers.Invoke(new DomainEventHandlerBuilder(cfg));
+				configureHandlers.Invoke(new DomainEventHandlerBuilder(services, cfg));
 			});
 
 			// Register domain event dispatcher.

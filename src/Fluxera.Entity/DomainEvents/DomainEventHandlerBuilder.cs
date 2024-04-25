@@ -13,14 +13,17 @@
 	[PublicAPI]
 	internal sealed class DomainEventHandlerBuilder : IDomainEventHandlerBuilder
 	{
+		private readonly IServiceCollection services;
 		private readonly MediatRServiceConfiguration configuration;
 
 		/// <summary>
 		///     Initializes a new instance of the <see cref="DomainEventHandlerBuilder" /> type.
 		/// </summary>
+		/// <param name="services"></param>
 		/// <param name="configuration"></param>
-		public DomainEventHandlerBuilder(MediatRServiceConfiguration configuration)
+		public DomainEventHandlerBuilder(IServiceCollection services, MediatRServiceConfiguration configuration)
 		{
+			this.services = services;
 			this.configuration = configuration;
 		}
 
@@ -39,6 +42,15 @@
 			assembly = Guard.Against.Null(assembly);
 
 			this.configuration.RegisterServicesFromAssembly(assembly);
+
+			return this;
+		}
+
+
+		public IDomainEventHandlerBuilder AddDomainEventDispatcher<TDispatcher>()
+			where TDispatcher : class, IDomainEventDispatcher
+		{
+			this.services.AddDomainEventDispatcher<TDispatcher>();
 
 			return this;
 		}
