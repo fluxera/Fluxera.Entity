@@ -4,7 +4,7 @@
 	using System.Collections.Generic;
 	using System.Runtime.Serialization;
 	using Fluxera.ComponentModel.Annotations;
-	using Fluxera.Entity.DomainEvents;
+	using Fluxera.DomainEvents.Abstractions;
 	using JetBrains.Annotations;
 #if NET6_0
 	using Fluxera.Utilities.Extensions;

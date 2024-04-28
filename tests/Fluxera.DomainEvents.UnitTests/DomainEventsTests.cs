@@ -1,10 +1,11 @@
-﻿namespace Fluxera.Entity.UnitTests
+﻿namespace Fluxera.DomainEvents.UnitTests
 {
+	using System.Reflection;
 	using System.Threading.Tasks;
 	using FluentAssertions;
-	using Fluxera.DomainEvents;
 	using Fluxera.DomainEvents.Abstractions;
-	using Fluxera.Entity.UnitTests.EmployeeAggregate;
+	using Fluxera.DomainEvents.MediatR;
+	using Fluxera.DomainEvents.UnitTests.EmployeeAggregate;
 	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;
 
@@ -22,8 +23,10 @@
 			services.AddDomainEvents();
 
 			// Add the domain event handlers.
-			services.AddDomainEventHandler<SalaryRaisedEventHandler>();
-			services.AddDomainEventHandler<AdditionalSalaryRaisedEventHandler>();
+			services.AddMediatR(cfg =>
+			{
+				cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+			});
 
 			this.serviceProvider = services.BuildServiceProvider();
 		}

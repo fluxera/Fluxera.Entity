@@ -26,7 +26,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\Fluxera.DomainEvents\Fluxera.DomainEvents.csproj" />
+		<ProjectReference Include="..\..\src\Fluxera.DomainEvents.MediatR\Fluxera.DomainEvents.MediatR.csproj" />
 		<ProjectReference Include="..\..\src\Fluxera.Entity\Fluxera.Entity.csproj" />
 	</ItemGroup>
 

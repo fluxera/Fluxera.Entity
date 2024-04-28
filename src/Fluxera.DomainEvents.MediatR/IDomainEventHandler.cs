@@ -1,9 +1,10 @@
-﻿namespace Fluxera.Entity.DomainEvents
+﻿namespace Fluxera.DomainEvents.MediatR
 {
 	using System.Threading;
 	using System.Threading.Tasks;
+	using Fluxera.DomainEvents.Abstractions;
+	using global::MediatR;
 	using JetBrains.Annotations;
-	using MediatR;
 
 	/// <summary>
 	///     A contract for implementing domain event handlers, which must be registered
@@ -20,35 +21,12 @@
 		/// </summary>
 		/// <param name="domainEvent">The domain event to handle.</param>
 		/// <param name="cancellationToken">The cancellation token.</param>
-		Task HandleAsync(TDomainEvent domainEvent, CancellationToken cancellationToken);
+		Task HandleAsync(TDomainEvent domainEvent, CancellationToken cancellationToken = default);
 
 		/// <inheritdoc />
 		Task INotificationHandler<TDomainEvent>.Handle(TDomainEvent notification, CancellationToken cancellationToken)
 		{
 			return this.HandleAsync(notification, cancellationToken);
 		}
-	}
-
-	/// <summary>
-	///		A wrapper class for a synchronous domain event handler.
-	/// </summary>
-	/// <typeparam name="TDomainEvent">The domain event type</typeparam>
-	[PublicAPI]
-	public abstract class DomainEventHandler<TDomainEvent> : IDomainEventHandler<TDomainEvent>
-		where TDomainEvent : class, IDomainEvent
-	{
-		/// <inheritdoc />
-		Task IDomainEventHandler<TDomainEvent>.HandleAsync(TDomainEvent domainEvent, CancellationToken cancellationToken)
-		{
-			Handle(domainEvent);
-
-			return Task.CompletedTask;
-		}
-
-		/// <summary>
-		///		Override in a derived class for the handler logic
-		/// </summary>
-		/// <param name="domainEvent">The domain event to handle.</param>
-		protected abstract void Handle(TDomainEvent domainEvent);
 	}
 }

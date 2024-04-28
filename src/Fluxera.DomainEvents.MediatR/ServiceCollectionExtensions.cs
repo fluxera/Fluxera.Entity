@@ -1,7 +1,6 @@
-﻿namespace Fluxera.Entity.DomainEvents
+﻿namespace Fluxera.DomainEvents.MediatR
 {
-	using System;
-	using System.Reflection;
+	using Fluxera.DomainEvents.Abstractions;
 	using Fluxera.Guards;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
@@ -14,27 +13,16 @@
 	public static class ServiceCollectionExtensions
 	{
 		/// <summary>
-		///     Adds the domain events services. The domain events dispatcher is register as scoped.
+		///     Adds the domain events services. The domain events dispatcher is registered scoped.
 		/// </summary>
 		/// <param name="services"></param>
-		/// <param name="configureHandlers"></param>
 		/// <returns></returns>
-		public static IServiceCollection AddDomainEvents(this IServiceCollection services, Action<IDomainEventHandlerBuilder> configureHandlers)
+		public static IServiceCollection AddDomainEvents(this IServiceCollection services)
 		{
-			Guard.Against.Null(services);
-			Guard.Against.Null(configureHandlers);
+			services = Guard.Against.Null(services);
 
-			// Configure MediatR services.
-			services.AddMediatR(cfg =>
-			{
-				cfg.RegisterServicesFromAssembly(Assembly.GetCallingAssembly());
-			});
-
-			// Register domain event dispatcher.
+			// Register the default domain event dispatcher.
 			services.AddDomainEventDispatcher<DomainEventDispatcher>();
-
-			// Configure the domain event handlers.
-			configureHandlers.Invoke(new DomainEventHandlerBuilder(services));
 
 			return services;
 		}
@@ -48,6 +36,8 @@
 		public static IServiceCollection AddDomainEventDispatcher<TDispatcher>(this IServiceCollection services)
 			where TDispatcher : class, IDomainEventDispatcher
 		{
+			services = Guard.Against.Null(services);
+
 			services.RemoveAll<IDomainEventDispatcher>();
 			services.AddScoped<IDomainEventDispatcher, TDispatcher>();
 
