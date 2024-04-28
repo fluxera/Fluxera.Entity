@@ -22,7 +22,7 @@
 			services = Guard.Against.Null(services);
 
 			// Register the default domain event dispatcher.
-			services.AddDomainEventDispatcher<DomainEventDispatcher>();
+			services.AddDomainEventDispatcher<MediatrDomainEventDispatcher>();
 
 			return services;
 		}
@@ -34,7 +34,7 @@
 		/// <param name="services"></param>
 		/// <returns></returns>
 		public static IServiceCollection AddDomainEventDispatcher<TDispatcher>(this IServiceCollection services)
-			where TDispatcher : class, IDomainEventDispatcher
+			where TDispatcher : MediatrDomainEventDispatcher
 		{
 			services = Guard.Against.Null(services);
 
