@@ -11,15 +11,15 @@
 	///     dispatches domains events in-memory using the <see cref="IPublisher" />.
 	/// </summary>
 	[PublicAPI]
-	public class DomainEventDispatcher : IDomainEventDispatcher
+	public class MediatrDomainEventDispatcher : IDomainEventDispatcher
 	{
 		private readonly IPublisher publisher;
 
 		/// <summary>
-		///     Initializes a new instance of the <see cref="DomainEventDispatcher" /> type.
+		///     Initializes a new instance of the <see cref="MediatrDomainEventDispatcher" /> type.
 		/// </summary>
 		/// <param name="publisher"></param>
-		public DomainEventDispatcher(IPublisher publisher)
+		public MediatrDomainEventDispatcher(IPublisher publisher)
 		{
 			this.publisher = publisher;
 		}
