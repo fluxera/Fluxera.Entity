@@ -1,8 +1,8 @@
-﻿namespace Fluxera.Entity.UnitTests.EmployeeAggregate
+﻿namespace Fluxera.DomainEvents.UnitTests.EmployeeAggregate
 {
 	using System.Threading;
 	using System.Threading.Tasks;
-	using Fluxera.DomainEvents;
+	using Fluxera.DomainEvents.MediatR;
 	using JetBrains.Annotations;
 
 	[PublicAPI]

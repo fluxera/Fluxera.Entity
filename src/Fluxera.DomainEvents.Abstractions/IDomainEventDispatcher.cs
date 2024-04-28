@@ -1,5 +1,6 @@
-namespace Fluxera.Entity.DomainEvents
+namespace Fluxera.DomainEvents.Abstractions
 {
+	using System.Threading;
 	using System.Threading.Tasks;
 	using JetBrains.Annotations;
 
@@ -16,6 +17,7 @@ namespace Fluxera.Entity.DomainEvents
 		///     Dispatches the given domain event to it's corresponding handlers.
 		/// </summary>
 		/// <param name="domainEvent">The domain event to handle.</param>
-		Task DispatchAsync(IDomainEvent domainEvent);
+		/// <param name="cancellationToken">A cancellation token.</param>
+		Task DispatchAsync(IDomainEvent domainEvent, CancellationToken cancellationToken = default);
 	}
 }

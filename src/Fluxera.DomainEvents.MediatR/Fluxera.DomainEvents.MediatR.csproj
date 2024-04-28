@@ -5,9 +5,9 @@
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<Title>Fluxera.Entity</Title>
-		<Description>An aggregate root and entity objects library.</Description>
-		<PackageTags>fluxera;library;ddd;entity;aggregate</PackageTags>
+		<Title>Fluxera.DomainEvents</Title>
+		<Description>The domain events library with MediatR event dispatcher.</Description>
+		<PackageTags>fluxera;library;ddd;domain;domain-events;events;mediatr</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -22,19 +22,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Fluxera.ComponentModel.Annotations" Version="8.0.4" />
 		<PackageReference Include="Fluxera.Guards" Version="8.0.2" />
-		<PackageReference Include="Fluxera.StronglyTypedId" Version="8.0.7" />
 		<PackageReference Include="GitVersion.MsBuild" Version="5.12.0">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="JetBrains.Annotations" Version="2023.3.0" PrivateAssets="All" />
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+		<PackageReference Include="MediatR" Version="12.2.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Fluxera.DomainEvents.Abstractions\Fluxera.DomainEvents.Abstractions.csproj" />
+		<ProjectReference Include="..\Fluxera.DomainEvents.Abstractions\Fluxera.DomainEvents.Abstractions.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -1,8 +1,10 @@
-namespace Fluxera.Entity.DomainEvents
+﻿namespace Fluxera.DomainEvents.MediatR
 {
+	using System.Threading;
 	using System.Threading.Tasks;
+	using Fluxera.DomainEvents.Abstractions;
+	using global::MediatR;
 	using JetBrains.Annotations;
-	using MediatR;
 
 	/// <summary>
 	///     A default implementation of the <see cref="IDomainEventDispatcher" /> contract that
@@ -23,9 +25,9 @@ namespace Fluxera.Entity.DomainEvents
 		}
 
 		/// <inheritdoc />
-		public virtual async Task DispatchAsync(IDomainEvent domainEvent)
+		public virtual async Task DispatchAsync(IDomainEvent domainEvent, CancellationToken cancellationToken = default)
 		{
-			await this.publisher.Publish(domainEvent);
+			await this.publisher.Publish(domainEvent, cancellationToken);
 		}
 	}
 }

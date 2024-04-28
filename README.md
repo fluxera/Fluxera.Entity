@@ -1,6 +1,6 @@
 [![Build Status](https://dev.azure.com/fluxera/Foundation/_apis/build/status/GitHub/fluxera.Fluxera.Entity?branchName=main&stageName=BuildAndTest)](https://dev.azure.com/fluxera/Foundation/_build/latest?definitionId=86&branchName=main)
 
-# Fluxera.Entity
+# Fluxera.Entity 
 An aggregate root and entity objects library.
 
 This library helps in implementing **Entity**, **Aggregate Root**  and **Domain Events**.
@@ -29,17 +29,57 @@ entities to loosely-coupled domain event handlers. You can add events to the ```
 collection of an entity and implement two different types of domain event handlers for it.
 
 This library provides the nessessary dispatcher service which can be used to integrate the event
-dispatching in a **Repository** implementation. 
+dispatching in a **Repository** implementation. A ```IDomainEventHandler``` implementation handles 
+a published domain event.
 
-### ```IDomainEventHandler```
 
-A domain event handler of this type will be executed **before** a **Repository** adds or updates
-the entity in the storage.
+## Configuration
 
-### ```ICommittedDomainEventHandler```
+Two different publishing infrastructures exist:
 
-A domain event handler of this type will be executed **after** a **Repository** adds or updates
-the entity in the storage.
+- A default implementation using a custom domain event dispatcher.
+    - Add the ```Fluxera.DomainEvents``` package to use this implementation.
+
+- A MediatR based implementation using the ```IPublisher``` of the MediatR library.
+    - Add the ```Fluxera.DomainEvents.MediatR``` package to use this implementation.
+
+You can **NOT** use both packages at the same time.
+
+### Default implementation (```Fluxera.DomainEvents```)
+
+```C#
+// A domain event support.
+services.AddDomainEvents();
+
+// Add domain event handlers.
+services.AddDomainEventHandler<SalaryRaisedEventHandler>();
+
+IDomainEventDispatcher dispatcher = /* Get the dispatcher ... */;
+
+SalaryRaisedEvent salaryRaisedEvent = new SalaryRaisedEvent(100_000);
+
+await dispatcher.DispatchAsync(salaryRaisedEvent);
+```
+
+### MediatR implementation (```Fluxera.DomainEvents.MediatR```)
+
+```C#
+// A domain event support.
+services.AddDomainEvents();
+
+// Add domain event handlers by configuring MediatR.
+// This will automatically register all domain event handlers in the given assembly.
+services.AddMediatR(cfg =>
+{
+	cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+});
+
+IDomainEventDispatcher dispatcher = /* Get the dispatcher ... */;
+
+SalaryRaisedEvent salaryRaisedEvent = new SalaryRaisedEvent(100_000);
+
+await dispatcher.DispatchAsync(salaryRaisedEvent);
+```
 
 ## Usage
 
@@ -81,7 +121,7 @@ public class SalaryRaisedEvent : IDomainEvent
 ```C#
 public class SalaryRaisedEventHandler : IDomainEventHandler<SalaryRaisedEvent>
 {
-	public Task HandleAsync(SalaryRaisedEvent domainEvent)
+	public Task HandleAsync(SalaryRaisedEvent domainEvent, CancellationToken cancellationToken = default)
 	{
 		// Do something ...
 		return Task.CompletedTask;
@@ -89,34 +129,11 @@ public class SalaryRaisedEventHandler : IDomainEventHandler<SalaryRaisedEvent>
 }
 ```
 
-```C#
-public class SalaryRaisedEventHandler : ICommittedDomainEventHandler<SalaryRaisedEvent>
-{
-	public Task HandleAsync(SalaryRaisedEvent domainEvent)
-	{
-		// Do something ...
-		return Task.CompletedTask;
-	}
-}
-```
+## Future
 
-```C#
-// A domain event support.
-services.AddDomainEvents(builder =>
-{
-	builder
-		.AddDomainEventHandlers<SalaryRaisedEventHandler>()
-		.AddDomainEventHandlers<AdditionalSalaryRaisedEventHandler>()
-		.AddDomainEventHandlers<SalaryRaisedCommittedEventHandler>();
-});
-
-IDomainEventDispatcher dispatcher = /* Get the dispatcher ... */;
-
-SalaryRaisedEvent salaryRaisedEvent = new SalaryRaisedEvent(100_000);
-
-await dispatcher.DispatchAsync(salaryRaisedEvent);
-await dispatcher.DispatchCommittedAsync(salaryRaisedEvent);
-```
+With the upcoming v9.0 release in november 2024 the domain events libraries will
+be moved to a separate repository, because it can be used with your own entities
+and repositories.
 
 ## References
 
