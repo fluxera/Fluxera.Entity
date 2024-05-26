@@ -5,7 +5,6 @@
 	using System.ComponentModel.DataAnnotations;
 	using System.Linq;
 	using System.Runtime.Serialization;
-	using Fluxera.ComponentModel.Annotations;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -36,7 +35,6 @@
 		/// <summary>
 		///     Gets a flag, if the entity instance is transient (not stored to the storage).
 		/// </summary>
-		[Ignore]
 		[IgnoreDataMember]
 		public virtual bool IsTransient
 		{

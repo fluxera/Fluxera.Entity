@@ -1,7 +1,6 @@
 ﻿namespace Fluxera.DomainEvents
 {
 	using Fluxera.DomainEvents.Abstractions;
-	using Fluxera.Guards;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
 	using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -23,7 +22,7 @@
 		/// <returns></returns>
 		public static IServiceCollection AddDomainEvents(this IServiceCollection services)
 		{
-			services = Guard.Against.Null(services);
+			services = Guard.ThrowIfNull(services);
 
 			// Register the default domain event dispatcher.
 			services.AddDomainEventDispatcher<DefaultDomainEventDispatcher>();
@@ -40,7 +39,7 @@
 		public static IServiceCollection AddDomainEventDispatcher<TDispatcher>(this IServiceCollection services)
 			where TDispatcher : DefaultDomainEventDispatcher
 		{
-			services = Guard.Against.Null(services);
+			services = Guard.ThrowIfNull(services);
 
 			services.RemoveAll<IDomainEventDispatcher>();
 			services.AddScoped<IDomainEventDispatcher, TDispatcher>();
@@ -56,7 +55,7 @@
 		/// <returns></returns>
 		public static IServiceCollection AddDomainEventHandler<TDomainEventHandler>(this IServiceCollection services)
 		{
-			services = Guard.Against.Null(services);
+			services = Guard.ThrowIfNull(services);
 
 			Type type = typeof(TDomainEventHandler);
 

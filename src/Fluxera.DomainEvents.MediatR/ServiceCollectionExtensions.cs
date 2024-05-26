@@ -1,7 +1,6 @@
 ﻿namespace Fluxera.DomainEvents.MediatR
 {
 	using Fluxera.DomainEvents.Abstractions;
-	using Fluxera.Guards;
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
 	using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -19,7 +18,7 @@
 		/// <returns></returns>
 		public static IServiceCollection AddDomainEvents(this IServiceCollection services)
 		{
-			services = Guard.Against.Null(services);
+			services = Guard.ThrowIfNull(services);
 
 			// Register the default domain event dispatcher.
 			services.AddDomainEventDispatcher<MediatrDomainEventDispatcher>();
@@ -36,7 +35,7 @@
 		public static IServiceCollection AddDomainEventDispatcher<TDispatcher>(this IServiceCollection services)
 			where TDispatcher : MediatrDomainEventDispatcher
 		{
-			services = Guard.Against.Null(services);
+			services = Guard.ThrowIfNull(services);
 
 			services.RemoveAll<IDomainEventDispatcher>();
 			services.AddScoped<IDomainEventDispatcher, TDispatcher>();

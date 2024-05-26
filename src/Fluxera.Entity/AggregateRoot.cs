@@ -3,12 +3,8 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Runtime.Serialization;
-	using Fluxera.ComponentModel.Annotations;
 	using Fluxera.DomainEvents.Abstractions;
 	using JetBrains.Annotations;
-#if NET6_0
-	using Fluxera.Utilities.Extensions;
-#endif
 
 	/// <summary>
 	///     A base class for aggregate roots.
@@ -25,7 +21,6 @@
 		/// <summary>
 		///     The domain events of this entity.
 		/// </summary>
-		[Ignore]
 		[IgnoreDataMember]
 		public IReadOnlyCollection<IDomainEvent> DomainEvents => this.domainEvents.AsReadOnly();
 

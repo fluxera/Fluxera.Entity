@@ -1,8 +1,8 @@
 ﻿namespace Fluxera.Entity.UnitTests.EmployeeAggregate
 {
 	using System.Collections.Generic;
-	using Fluxera.Guards;
 	using JetBrains.Annotations;
+	using Fluxera.Guards;
 
 	[PublicAPI]
 	public class Employee : AggregateRoot<Employee, EmployeeId>
