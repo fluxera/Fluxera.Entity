@@ -2,7 +2,6 @@
 {
 	using System.Collections.Generic;
 	using Fluxera.Entity;
-	using Fluxera.Guards;
 	using JetBrains.Annotations;
 
 	[PublicAPI]
@@ -20,8 +19,6 @@
 
 		public void GiveRaise(decimal raiseAmount)
 		{
-			Guard.Against.NegativeOrZero(raiseAmount, nameof(raiseAmount));
-
 			this.Salary += raiseAmount;
 
 			this.RaiseDomainEvent(new SalaryRaisedEvent(this.Salary));
