@@ -5,6 +5,7 @@
 	using System.ComponentModel.DataAnnotations;
 	using System.Linq;
 	using System.Runtime.Serialization;
+	using System.Text.Json.Serialization;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -30,11 +31,13 @@
 		///     The unique ID of the entity.
 		/// </summary>
 		[Key]
+		[JsonPropertyOrder(int.MinValue)]
 		public virtual TKey ID { get; set; }
 
 		/// <summary>
 		///     Gets a flag, if the entity instance is transient (not stored to the storage).
 		/// </summary>
+		[JsonIgnore]
 		[IgnoreDataMember]
 		public virtual bool IsTransient
 		{
