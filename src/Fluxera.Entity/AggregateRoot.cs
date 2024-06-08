@@ -3,6 +3,7 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Runtime.Serialization;
+	using System.Text.Json.Serialization;
 	using Fluxera.DomainEvents.Abstractions;
 	using JetBrains.Annotations;
 
@@ -21,6 +22,7 @@
 		/// <summary>
 		///     The domain events of this entity.
 		/// </summary>
+		[JsonIgnore]
 		[IgnoreDataMember]
 		public IReadOnlyCollection<IDomainEvent> DomainEvents => this.domainEvents.AsReadOnly();
 
