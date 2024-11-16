@@ -1,6 +1,5 @@
 ﻿namespace Fluxera.DomainEvents.UnitTests.EmployeeAggregate
 {
-	using System;
 	using System.Collections.Generic;
 	using Fluxera.Entity;
 	using Fluxera.Guards;
