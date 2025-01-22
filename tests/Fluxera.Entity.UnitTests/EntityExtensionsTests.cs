@@ -10,15 +10,6 @@
 	{
 		[Test]
 		[TestCase(typeof(Employee), true)]
-		[TestCase(typeof(PerformanceReview), false)]
-		[TestCase(typeof(object), false)]
-		public void IsAggregateRootShouldReturnExpectedValue(Type type, bool expected)
-		{
-			type.IsAggregateRoot().Should().Be(expected);
-		}
-
-		[Test]
-		[TestCase(typeof(Employee), true)]
 		[TestCase(typeof(PerformanceReview), true)]
 		[TestCase(typeof(object), false)]
 		public void IsEntityShouldReturnExpectedValue(Type type, bool expected)

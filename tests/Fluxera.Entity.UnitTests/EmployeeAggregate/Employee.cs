@@ -5,7 +5,7 @@
 	using Fluxera.Guards;
 
 	[PublicAPI]
-	public class Employee : AggregateRoot<Employee, EmployeeId>
+	public class Employee : Entity<Employee, EmployeeId>
 	{
 		[DomainSignature]
 		public string Name { get; set; }

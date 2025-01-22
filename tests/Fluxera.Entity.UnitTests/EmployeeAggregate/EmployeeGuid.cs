@@ -4,7 +4,7 @@
 	using JetBrains.Annotations;
 
 	[PublicAPI]
-	public class EmployeeGuid : AggregateRoot<EmployeeGuid, Guid>
+	public class EmployeeGuid : Entity<EmployeeGuid, Guid>
 	{
 		[DomainSignature]
 		public string Name { get; set; }
