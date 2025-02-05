@@ -1,10 +1,10 @@
-﻿namespace Fluxera.Entity.UnitTests.EmployeeAggregate
+﻿namespace Fluxera.Entity.UnitTests.Employees
 {
 	using System;
 	using JetBrains.Annotations;
 
 	[PublicAPI]
-	public class EmployeeGuid : AggregateRoot<EmployeeGuid, Guid>
+	public class EmployeeGuid : Entity<EmployeeGuid, Guid>
 	{
 		[DomainSignature]
 		public string Name { get; set; }

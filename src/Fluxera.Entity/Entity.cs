@@ -6,6 +6,7 @@
 	using System.Linq;
 	using System.Runtime.Serialization;
 	using System.Text.Json.Serialization;
+	using Fluxera.DomainEvents.Abstractions;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -27,12 +28,21 @@
 		/// </remarks>
 		private const int HashMultiplier = 37;
 
+		private readonly IList<IDomainEvent> domainEvents = [];
+
 		/// <summary>
 		///     The unique ID of the entity.
 		/// </summary>
 		[Key]
 		[JsonPropertyOrder(int.MinValue)]
 		public virtual TKey ID { get; set; }
+
+		/// <summary>
+		///     The domain events of this entity.
+		/// </summary>
+		[JsonIgnore]
+		[IgnoreDataMember]
+		public IReadOnlyCollection<IDomainEvent> DomainEvents => this.domainEvents.AsReadOnly();
 
 		/// <summary>
 		///     Gets a flag, if the entity instance is transient (not stored to the storage).
@@ -55,6 +65,23 @@
 
 				return isTransient;
 			}
+		}
+
+		/// <summary>
+		///     Adds the given event to the list of raised domain events.
+		/// </summary>
+		/// <param name="domainEvent"></param>
+		public void RaiseDomainEvent(IDomainEvent domainEvent)
+		{
+			this.domainEvents.Add(domainEvent);
+		}
+
+		/// <summary>
+		///     Clears the list of raised domain events.
+		/// </summary>
+		public void ClearDomainEvents()
+		{
+			this.domainEvents.Clear();
 		}
 
 		/// <summary>

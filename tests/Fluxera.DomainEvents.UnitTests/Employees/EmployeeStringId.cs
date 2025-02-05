@@ -1,11 +1,11 @@
-﻿namespace Fluxera.Entity.UnitTests.EmployeeAggregate
+﻿namespace Fluxera.DomainEvents.UnitTests.Employees
 {
 	using System.Collections.Generic;
+	using Fluxera.Entity;
 	using JetBrains.Annotations;
-	using Fluxera.Guards;
 
 	[PublicAPI]
-	public class EmployeeStringId : AggregateRoot<EmployeeStringId, string>
+	public class EmployeeStringId : Entity<EmployeeStringId, string>
 	{
 		[DomainSignature]
 		public string Name { get; set; }
@@ -19,8 +19,6 @@
 
 		public void GiveRaise(decimal raiseAmount)
 		{
-			Guard.Against.NegativeOrZero(raiseAmount, nameof(raiseAmount));
-
 			this.Salary += raiseAmount;
 
 			this.RaiseDomainEvent(new SalaryRaisedEvent(this.Salary));

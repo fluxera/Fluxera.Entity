@@ -1,4 +1,4 @@
-﻿namespace Fluxera.Entity.UnitTests.EmployeeAggregate
+﻿namespace Fluxera.DomainEvents.UnitTests.Employees
 {
 	using System.Collections.Generic;
 	using Fluxera.DomainEvents.Abstractions;

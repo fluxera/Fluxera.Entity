@@ -2,21 +2,12 @@
 {
 	using System;
 	using FluentAssertions;
-	using Fluxera.Entity.UnitTests.EmployeeAggregate;
+	using Fluxera.Entity.UnitTests.Employees;
 	using NUnit.Framework;
 
 	[TestFixture]
 	public class EntityExtensionsTests
 	{
-		[Test]
-		[TestCase(typeof(Employee), true)]
-		[TestCase(typeof(PerformanceReview), false)]
-		[TestCase(typeof(object), false)]
-		public void IsAggregateRootShouldReturnExpectedValue(Type type, bool expected)
-		{
-			type.IsAggregateRoot().Should().Be(expected);
-		}
-
 		[Test]
 		[TestCase(typeof(Employee), true)]
 		[TestCase(typeof(PerformanceReview), true)]

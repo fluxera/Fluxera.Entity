@@ -3,9 +3,7 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
-#if NET7_0_OR_GREATER
 	using System.Numerics;
-#endif
 	using System.Runtime.CompilerServices;
 	using JetBrains.Annotations;
 
@@ -66,7 +64,6 @@
 			// ReSharper enable PossibleMultipleEnumeration
 		}
 
-#if NET7_0_OR_GREATER
 		public static T ThrowIfNegative<T>(T argument, [InvokerParameterName] [CallerArgumentExpression(nameof(argument))] string parameterName = null)
 			where T : INumber<T>
 		{
@@ -77,48 +74,5 @@
 
 			return argument;
 		}
-#endif
-
-#if NET6_0
-		public static byte ThrowIfNegative(byte argument, [InvokerParameterName][CallerArgumentExpression(nameof(argument))] string parameterName = null)
-		{
-			if(argument < 0)
-			{
-				throw new ArgumentException("Value cannot be negative.", parameterName);
-			}
-
-			return argument;
-		}
-
-		public static short ThrowIfNegative(short argument, [InvokerParameterName][CallerArgumentExpression(nameof(argument))] string parameterName = null)
-		{
-			if(argument < 0)
-			{
-				throw new ArgumentException("Value cannot be negative.", parameterName);
-			}
-
-			return argument;
-		}
-
-		public static int ThrowIfNegative(int argument, [InvokerParameterName] [CallerArgumentExpression(nameof(argument))] string parameterName = null)
-		{
-			if(argument < 0)
-			{
-				throw new ArgumentException("Value cannot be negative.", parameterName);
-			}
-
-			return argument;
-		}
-
-		public static long ThrowIfNegative(long argument, [InvokerParameterName][CallerArgumentExpression(nameof(argument))] string parameterName = null)
-		{
-			if(argument < 0)
-			{
-				throw new ArgumentException("Value cannot be negative.", parameterName);
-			}
-
-			return argument;
-		}
-#endif
 	}
 }
