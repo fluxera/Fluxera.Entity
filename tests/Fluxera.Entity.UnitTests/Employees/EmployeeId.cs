@@ -1,4 +1,4 @@
-﻿namespace Fluxera.Entity.UnitTests.EmployeeAggregate
+﻿namespace Fluxera.Entity.UnitTests.Employees
 {
 	using Fluxera.StronglyTypedId;
 

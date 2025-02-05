@@ -1,12 +1,11 @@
-﻿namespace Fluxera.DomainEvents.UnitTests.EmployeeAggregate
+﻿namespace Fluxera.Entity.UnitTests.Employees
 {
 	using System.Collections.Generic;
-	using Fluxera.Entity;
 	using Fluxera.Guards;
 	using JetBrains.Annotations;
 
 	[PublicAPI]
-	public class Employee : Entity<Employee, EmployeeId>
+	public class EmployeeStringId : Entity<EmployeeStringId, string>
 	{
 		[DomainSignature]
 		public string Name { get; set; }

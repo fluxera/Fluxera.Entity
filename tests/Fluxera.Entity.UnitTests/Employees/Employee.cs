@@ -1,8 +1,8 @@
-﻿namespace Fluxera.Entity.UnitTests.EmployeeAggregate
+﻿namespace Fluxera.Entity.UnitTests.Employees
 {
 	using System.Collections.Generic;
-	using JetBrains.Annotations;
 	using Fluxera.Guards;
+	using JetBrains.Annotations;
 
 	[PublicAPI]
 	public class Employee : Entity<Employee, EmployeeId>

@@ -1,17 +1,17 @@
-﻿namespace Fluxera.DomainEvents.UnitTests.EmployeeAggregate
+﻿namespace Fluxera.Entity.UnitTests.Employees
 {
 	using System.Threading;
 	using System.Threading.Tasks;
-	using Fluxera.DomainEvents.MediatR;
+	using Fluxera.DomainEvents;
 	using JetBrains.Annotations;
 
 	[PublicAPI]
-	public class SalaryRaisedEventHandler : IDomainEventHandler<SalaryRaisedEvent>
+	public class AdditionalSalaryRaisedEventHandler : IDomainEventHandler<SalaryRaisedEvent>
 	{
 		/// <inheritdoc />
 		public Task HandleAsync(SalaryRaisedEvent domainEvent, CancellationToken cancellationToken)
 		{
-			domainEvent.HandlerNames.Add(nameof(SalaryRaisedEventHandler));
+			domainEvent.HandlerNames.Add(nameof(AdditionalSalaryRaisedEventHandler));
 			return Task.CompletedTask;
 		}
 	}

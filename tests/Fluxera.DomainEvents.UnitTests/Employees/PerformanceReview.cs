@@ -1,4 +1,4 @@
-﻿namespace Fluxera.DomainEvents.UnitTests.EmployeeAggregate
+﻿namespace Fluxera.DomainEvents.UnitTests.Employees
 {
 	using Fluxera.Entity;
 	using JetBrains.Annotations;

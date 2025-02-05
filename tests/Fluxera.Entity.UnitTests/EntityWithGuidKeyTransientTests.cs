@@ -2,7 +2,7 @@
 {
 	using System;
 	using FluentAssertions;
-	using Fluxera.Entity.UnitTests.EmployeeAggregate;
+	using Fluxera.Entity.UnitTests.Employees;
 	using NUnit.Framework;
 
 	[TestFixture]

@@ -5,7 +5,7 @@
 	using FluentAssertions;
 	using Fluxera.DomainEvents.Abstractions;
 	using Fluxera.DomainEvents.MediatR;
-	using Fluxera.DomainEvents.UnitTests.EmployeeAggregate;
+	using Fluxera.DomainEvents.UnitTests.Employees;
 	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;
 
