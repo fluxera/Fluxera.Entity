@@ -1,8 +1,9 @@
-﻿namespace Fluxera.DomainEvents
+﻿namespace Fluxera.DomainEvents.Mediator
 {
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.DomainEvents.Abstractions;
+	using global::Mediator;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -12,7 +13,7 @@
 	/// </summary>
 	/// <typeparam name="TDomainEvent">The domain event type.</typeparam>
 	[PublicAPI]
-	public interface IDomainEventHandler<in TDomainEvent>
+	public interface IDomainEventHandler<in TDomainEvent> : INotificationHandler<TDomainEvent>
 		where TDomainEvent : class, IDomainEvent
 	{
 		/// <summary>
@@ -20,6 +21,12 @@
 		/// </summary>
 		/// <param name="domainEvent">The domain event to handle.</param>
 		/// <param name="cancellationToken">The cancellation token.</param>
-		Task HandleAsync(TDomainEvent domainEvent, CancellationToken cancellationToken = default);
+		ValueTask HandleAsync(TDomainEvent domainEvent, CancellationToken cancellationToken = default);
+
+		/// <inheritdoc />
+		ValueTask INotificationHandler<TDomainEvent>.Handle(TDomainEvent notification, CancellationToken cancellationToken)
+		{
+			return this.HandleAsync(notification, cancellationToken);
+		}
 	}
 }

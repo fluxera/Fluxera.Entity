@@ -21,6 +21,10 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+		<PackageReference Include="Mediator.SourceGenerator" Version="3.0.*-*">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -28,7 +32,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\src\Fluxera.DomainEvents.MediatR\Fluxera.DomainEvents.MediatR.csproj" />
+		<ProjectReference Include="..\..\src\Fluxera.DomainEvents.Mediator\Fluxera.DomainEvents.Mediator.csproj" />
 		<ProjectReference Include="..\..\src\Fluxera.Entity\Fluxera.Entity.csproj" />
 	</ItemGroup>
 

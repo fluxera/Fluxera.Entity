@@ -1,4 +1,4 @@
-﻿namespace Fluxera.DomainEvents.MediatR
+﻿namespace Fluxera.DomainEvents.Mediator
 {
 	using Fluxera.DomainEvents.Abstractions;
 	using JetBrains.Annotations;
@@ -21,8 +21,8 @@
 			services = Guard.ThrowIfNull(services);
 
 			// Register the default domain event dispatcher.
-			services.AddDomainEventDispatcher<MediatrDomainEventDispatcher>();
-
+			services.AddDomainEventDispatcher<MediatorDomainEventDispatcher>();
+			
 			return services;
 		}
 
@@ -33,7 +33,7 @@
 		/// <param name="services"></param>
 		/// <returns></returns>
 		public static IServiceCollection AddDomainEventDispatcher<TDispatcher>(this IServiceCollection services)
-			where TDispatcher : MediatrDomainEventDispatcher
+			where TDispatcher : MediatorDomainEventDispatcher
 		{
 			services = Guard.ThrowIfNull(services);
 
