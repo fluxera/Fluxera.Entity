@@ -2,7 +2,7 @@
 {
 	using System.Threading;
 	using System.Threading.Tasks;
-	using Fluxera.DomainEvents.Mediator;
+	using Fluxera.DomainEvents;
 	using JetBrains.Annotations;
 
 	[PublicAPI]

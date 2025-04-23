@@ -1,4 +1,4 @@
-﻿namespace Fluxera.DomainEvents.Mediator
+﻿namespace Fluxera.DomainEvents
 {
 	using Fluxera.DomainEvents.Abstractions;
 	using JetBrains.Annotations;

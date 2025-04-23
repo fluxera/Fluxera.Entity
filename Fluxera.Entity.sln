@@ -30,7 +30,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.Entity.UnitTests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Fluxera.DomainEvents.Abstractions", "src\Fluxera.DomainEvents.Abstractions\Fluxera.DomainEvents.Abstractions.csproj", "{41CF0383-1C90-4A9F-AAF1-3FFFBB52166B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluxera.DomainEvents.Mediator", "src\Fluxera.DomainEvents.Mediator\Fluxera.DomainEvents.Mediator.csproj", "{4EE1E3B6-742B-4AA3-97AB-A044264D373F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluxera.DomainEvents", "src\Fluxera.DomainEvents\Fluxera.DomainEvents.csproj", "{4EE1E3B6-742B-4AA3-97AB-A044264D373F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluxera.DomainEvents.UnitTests", "tests\Fluxera.DomainEvents.UnitTests\Fluxera.DomainEvents.UnitTests.csproj", "{C555DFCF-9D52-42F4-810F-C885C3081037}"
 EndProject

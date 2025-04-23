@@ -1,4 +1,4 @@
-﻿namespace Fluxera.DomainEvents.Mediator
+﻿namespace Fluxera.DomainEvents
 {
 	using System.Threading;
 	using System.Threading.Tasks;

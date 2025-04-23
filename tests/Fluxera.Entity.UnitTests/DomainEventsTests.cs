@@ -3,7 +3,7 @@
 	using System.Threading.Tasks;
 	using FluentAssertions;
 	using Fluxera.DomainEvents.Abstractions;
-	using Fluxera.DomainEvents.Mediator;
+	using Fluxera.DomainEvents;
 	using Fluxera.Entity.UnitTests.Employees;
 	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;
