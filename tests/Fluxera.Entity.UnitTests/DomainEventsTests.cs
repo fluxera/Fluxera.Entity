@@ -2,8 +2,8 @@
 {
 	using System.Threading.Tasks;
 	using FluentAssertions;
-	using Fluxera.DomainEvents;
 	using Fluxera.DomainEvents.Abstractions;
+	using Fluxera.DomainEvents;
 	using Fluxera.Entity.UnitTests.Employees;
 	using Microsoft.Extensions.DependencyInjection;
 	using NUnit.Framework;
@@ -22,8 +22,7 @@
 			services.AddDomainEvents();
 
 			// Add the domain event handlers.
-			services.AddDomainEventHandler<SalaryRaisedEventHandler>();
-			services.AddDomainEventHandler<AdditionalSalaryRaisedEventHandler>();
+			services.AddMediator();
 
 			this.serviceProvider = services.BuildServiceProvider();
 		}

@@ -4,10 +4,6 @@
 	using JetBrains.Annotations;
 	using Microsoft.Extensions.DependencyInjection;
 	using Microsoft.Extensions.DependencyInjection.Extensions;
-	using System.Collections.Generic;
-	using System;
-	using System.Linq;
-	using System.Reflection;
 
 	/// <summary>
 	///     Extensions methods for the <see cref="IServiceCollection" /> type.
@@ -25,8 +21,8 @@
 			services = Guard.ThrowIfNull(services);
 
 			// Register the default domain event dispatcher.
-			services.AddDomainEventDispatcher<DefaultDomainEventDispatcher>();
-
+			services.AddDomainEventDispatcher<MediatorDomainEventDispatcher>();
+			
 			return services;
 		}
 
@@ -37,43 +33,12 @@
 		/// <param name="services"></param>
 		/// <returns></returns>
 		public static IServiceCollection AddDomainEventDispatcher<TDispatcher>(this IServiceCollection services)
-			where TDispatcher : DefaultDomainEventDispatcher
+			where TDispatcher : MediatorDomainEventDispatcher
 		{
 			services = Guard.ThrowIfNull(services);
 
 			services.RemoveAll<IDomainEventDispatcher>();
 			services.AddScoped<IDomainEventDispatcher, TDispatcher>();
-
-			return services;
-		}
-
-		/// <summary>
-		///		Adds a domain event handler.
-		/// </summary>
-		/// <typeparam name="TDomainEventHandler"></typeparam>
-		/// <param name="services"></param>
-		/// <returns></returns>
-		public static IServiceCollection AddDomainEventHandler<TDomainEventHandler>(this IServiceCollection services)
-		{
-			services = Guard.ThrowIfNull(services);
-
-			Type type = typeof(TDomainEventHandler);
-
-			bool isEventHandler = type.GetInterfaces().Any(x =>
-				x.GetTypeInfo().IsGenericType &&
-				x.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>));
-
-			if(isEventHandler && !type.GetTypeInfo().IsAbstract && !type.GetTypeInfo().IsInterface)
-			{
-				IEnumerable<Type> eventHandlerInterfaceTypes = type.GetInterfaces().Where(x =>
-					x.GetTypeInfo().IsGenericType &&
-					x.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>));
-
-				foreach(Type eventHandlerInterfaceType in eventHandlerInterfaceTypes)
-				{
-					services.AddTransient(eventHandlerInterfaceType, type);
-				}
-			}
 
 			return services;
 		}

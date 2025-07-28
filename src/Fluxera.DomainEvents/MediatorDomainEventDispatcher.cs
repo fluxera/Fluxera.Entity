@@ -1,9 +1,9 @@
-﻿namespace Fluxera.DomainEvents.MediatR
+﻿namespace Fluxera.DomainEvents
 {
 	using System.Threading;
 	using System.Threading.Tasks;
 	using Fluxera.DomainEvents.Abstractions;
-	using global::MediatR;
+	using global::Mediator;
 	using JetBrains.Annotations;
 
 	/// <summary>
@@ -11,15 +11,15 @@
 	///     dispatches domains events in-memory using the <see cref="IPublisher" />.
 	/// </summary>
 	[PublicAPI]
-	public class MediatrDomainEventDispatcher : IDomainEventDispatcher
+	public class MediatorDomainEventDispatcher : IDomainEventDispatcher
 	{
 		private readonly IPublisher publisher;
 
 		/// <summary>
-		///     Initializes a new instance of the <see cref="MediatrDomainEventDispatcher" /> type.
+		///     Initializes a new instance of the <see cref="MediatorDomainEventDispatcher" /> type.
 		/// </summary>
 		/// <param name="publisher"></param>
-		public MediatrDomainEventDispatcher(IPublisher publisher)
+		public MediatorDomainEventDispatcher(IPublisher publisher)
 		{
 			this.publisher = publisher;
 		}

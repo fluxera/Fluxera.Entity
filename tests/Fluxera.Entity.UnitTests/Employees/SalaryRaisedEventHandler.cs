@@ -9,10 +9,10 @@
 	public class SalaryRaisedEventHandler : IDomainEventHandler<SalaryRaisedEvent>
 	{
 		/// <inheritdoc />
-		public Task HandleAsync(SalaryRaisedEvent domainEvent, CancellationToken cancellationToken)
+		public ValueTask HandleAsync(SalaryRaisedEvent domainEvent, CancellationToken cancellationToken)
 		{
 			domainEvent.HandlerNames.Add(nameof(SalaryRaisedEventHandler));
-			return Task.CompletedTask;
+			return ValueTask.CompletedTask;
 		}
 	}
 }

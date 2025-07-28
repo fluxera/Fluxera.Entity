@@ -1,7 +1,7 @@
 ﻿namespace Fluxera.DomainEvents.Abstractions
 {
 	using JetBrains.Annotations;
-	using MediatR;
+	using Mediator;
 
 	/// <summary>
 	///     A marker interface for domain events.
